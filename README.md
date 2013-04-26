@@ -1,4 +1,0 @@
-angrygerms
-==========
-
-Angry Germs
