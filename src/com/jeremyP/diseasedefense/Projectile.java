@@ -24,7 +24,7 @@ public class Projectile
 	
 	public void drawProjectile(Graphics g)
 	{
-		g.drawRect(origin.getX(), origin.getY(), 5, 10, Color.BLUE);
+		g.drawRect(origin.getX(), origin.getY(), 5, 10, Color.WHITE);
 	}
 	
 	public void setOrigin(int x, int y)

@@ -20,6 +20,7 @@ public class GameScreen extends Screen
 	private int timer;
 	private int min;
 	private int xOffset;
+	private int xEnemyOffset;
 	private int xCoord;
 	private int yCoord;
 	private int enemiesKilled;
@@ -134,19 +135,20 @@ public class GameScreen extends Screen
 	        
 	        if (enemy == null && timer % 100 == 0)
 	        {
-	          createEnemy();
-	          if (enemiesKilled % 30 == 0 && enemiesKilled != 0 || newAnimation)
-	          {
+	          if (enemiesKilled % 30 == 0 && enemiesKilled != 0)
+	          {	
+	        	enemyHealth += 1;
 	        	numEnemies += 1;
-	        	enemy.newAnimation();
 	        	newAnimation = true;
-	        	if (enemiesKilled % 30 == 0)
-	        	{	
-	        		enemyHealth += 1;
-	        	}
+	        	createEnemy();
 	          }
 	        	
+	          else
+	          {
+	        	createEnemy();
+	          }
 	        }
+	        
 	        timer += 1;
 	   }
 	   
@@ -218,8 +220,8 @@ public class GameScreen extends Screen
 		 {
 		  for (int i = 0; i < enemy.getHealth(); i++)
 		  {
-		   g.drawRect(xOffset + 10, 20, 25, 25, Color.RED);
-		   xOffset += 50;
+		   g.drawRect(xEnemyOffset + 275, 20, 25, 25, Color.GREEN);
+		   xEnemyOffset -= 50;
 		  }
 		 }
 		 
@@ -233,6 +235,7 @@ public class GameScreen extends Screen
 			 character.present();
 		 }
 		 xOffset = 0;
+		 xEnemyOffset = 0;
 		 
 		 drawText(g, Integer.toString(enemiesKilled), g.getWidth() - 60, g.getHeight() - 35);
 	 }
@@ -269,19 +272,21 @@ public class GameScreen extends Screen
 	        
 	        if (enemy == null && timer % 100 == 0)
 	        {
-	          createEnemy();
-	          if (enemiesKilled % 30 == 0 && enemiesKilled != 0 || newAnimation)
-	          {
+	          if (enemiesKilled % 30 == 0 && enemiesKilled != 0)
+	          {	
+	        	enemyHealth += 1;
 	        	numEnemies += 1;
-	        	enemy.newAnimation();
 	        	newAnimation = true;
-	        	if (enemiesKilled % 30 == 0)
-	        	{	
-	        		enemyHealth += 1;
-	        	}
+	        	createEnemy();
 	          }
 	        	
+	          else
+	          {
+	        	createEnemy();
+	          }
 	        }
+	        
+	        timer += 1;
 	 }
 	 
 	 public void createEnemy()
@@ -289,11 +294,17 @@ public class GameScreen extends Screen
 		enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);
      	xCoord = character.getCoords().getX();
  		yCoord = character.getCoords().getY();
-     	while(xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY())
+     	
+ 		while(xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY())
  		{
      	 xCoord = min + (int)(Math.random() * ((g.getWidth() - min) + 1));
  	     yCoord = min + (int)(Math.random() * ((g.getHeight() - min) + 1));
  		}
+     	
+     	if (newAnimation)
+     	{
+     	  enemy.newAnimation();
+     	}
      	
  	    enemy.setCoords(xCoord, yCoord);
 	 }
@@ -330,7 +341,7 @@ public class GameScreen extends Screen
 	}
 	private void drawBackground()
 	{
-	 if (enemiesKilled < 30)
+	 if (enemiesKilled < 100)
 	 {
 	  g.drawPixmap(Assets.background1, 0, 0);
 	 }
