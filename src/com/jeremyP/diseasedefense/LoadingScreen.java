@@ -17,6 +17,10 @@ public class LoadingScreen extends Screen
 		Graphics g = game.getGraphics();
 		Assets.background1 = g.newPixmap("bloodstream.png", PixmapFormat.RGB565);
 		Assets.background2 = g.newPixmap("brain.png", PixmapFormat.RGB565);
+		Assets.background3 = g.newPixmap("blue_blood_cell.jpg", PixmapFormat.RGB565);
+		Assets.background4 = g.newPixmap("inside-human-body-2-28.jpg", PixmapFormat.RGB565);
+		Assets.background5 = g.newPixmap("inside_human_heart.jpg", PixmapFormat.RGB565);
+		Assets.background6 = g.newPixmap("fetus.jpg", PixmapFormat.RGB565);
 		Assets.helpScreen1 = g.newPixmap("helpScreen1.png", PixmapFormat.RGB565);
 		Assets.helpScreen2 = g.newPixmap("helpScreen2.png", PixmapFormat.RGB565);
 		Assets.helpScreen3 = g.newPixmap("helpScreen3.png", PixmapFormat.RGB565);
