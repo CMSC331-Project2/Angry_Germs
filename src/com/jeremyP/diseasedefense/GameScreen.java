@@ -27,6 +27,7 @@ public class GameScreen extends Screen {
 	private int numEnemies = 1;
 	private int enemyHealth = 1;
 	private boolean newAnimation;
+	private Level level;
 
 	enum GameState {
 		Ready, Running, Paused, GameOver
@@ -45,6 +46,7 @@ public class GameScreen extends Screen {
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
 		enemiesKilled = 0;
+		level = new Level();
 		this.newAnimation = false;
 	}
 
@@ -73,12 +75,14 @@ public class GameScreen extends Screen {
 			int x = event.x;
 			int y = event.y;
 
+			//Moves your character to where user dragged character
 			if (event.type == TouchEvent.TOUCH_DRAGGED) {
 				if (character != null) {
 					character.update(x, y);
 				}
 			}
 
+			//Paused game
 			if (event.type == TouchEvent.TOUCH_UP) {
 				if (event.x < 64 && event.y < 64) {
 					if (Settings.soundEnabled)
@@ -89,23 +93,25 @@ public class GameScreen extends Screen {
 			}
 		}
 
+		//Move enemy towards the character
 		if (enemy != null && character != null) {
 			enemy.update(character.getCoords());
 		}
 
-		if (enemy != null && character != null && character.getFlyingState()
-				&& enemy.hasCollided(character.getWeapon().getOrigin())) {
+		//The enemy has been hit
+		if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 			enemy.getHit();
 			character.stopFlying();
 			if (enemy.getHealth() <= 0) {
 				enemy = null;
 				character.stopFlying();
 				enemiesKilled += 1;
+				level.addScore();
 			}
 		}
 
-		if (enemy != null && character != null
-				&& character.hasCollided(enemy.getCoords())) {
+		//Enemy has hit character
+		if (enemy != null && character != null && character.hasCollided(enemy.getCoords())) {
 			enemy = null;
 			character.getHit();
 			if (character.getHealth() <= 0) {
@@ -114,15 +120,14 @@ public class GameScreen extends Screen {
 			}
 		}
 
+		//Create new enemy after he's dead
 		if (enemy == null && timer % 100 == 0) {
 			if (enemiesKilled % 30 == 0 && enemiesKilled != 0) {
 				enemyHealth += 1;
 				numEnemies += 1;
 				newAnimation = true;
 				createEnemy();
-			}
-
-			else {
+			}else {
 				createEnemy();
 			}
 		}
@@ -135,8 +140,7 @@ public class GameScreen extends Screen {
 		for (int i = 0; i < len; i++) {
 			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
-				if (event.x >= 128 && event.x <= 192 && event.y >= 200
-						&& event.y <= 264) {
+				if (event.x >= 128 && event.x <= 192 && event.y >= 200 && event.y <= 264) {
 					g.clear(0);
 					if (Settings.soundEnabled) {
 						Assets.click.play(1);
@@ -153,13 +157,16 @@ public class GameScreen extends Screen {
 		for (int i = 0; i < len; i++) {
 			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
+				
 				if (event.x > 80 && event.x <= 240) {
+					
 					if (event.y > 100 && event.y <= 148) {
 						if (Settings.soundEnabled)
 							Assets.click.play(1);
 						state = GameState.Running;
 						return;
 					}
+					
 					if (event.y > 148 && event.y < 196) {
 						if (Settings.soundEnabled)
 							Assets.click.play(1);
@@ -203,8 +210,7 @@ public class GameScreen extends Screen {
 		xOffset = 0;
 		xEnemyOffset = 0;
 
-		drawText(g, Integer.toString(enemiesKilled), g.getWidth() - 60,
-				g.getHeight() - 35);
+		drawText(g, Integer.toString(enemiesKilled), g.getWidth() - 60, g.getHeight() - 35);
 	}
 
 	public void enemyCheck(Enemy enemy) {
@@ -212,19 +218,19 @@ public class GameScreen extends Screen {
 			enemy.update(character.getCoords());
 		}
 
-		if (enemy != null && character != null && character.getFlyingState()
-				&& enemy.hasCollided(character.getWeapon().getOrigin())) {
+		if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 			enemy.getHit();
 			character.stopFlying();
 			if (enemy.getHealth() <= 0) {
 				enemy = null;
 				character.stopFlying();
 				enemiesKilled += 1;
+				level.addScore();
+				//Check if level has changed
 			}
 		}
 
-		if (enemy != null && character != null
-				&& character.hasCollided(enemy.getCoords())) {
+		if (enemy != null && character != null && character.hasCollided(enemy.getCoords())) {
 			enemy = null;
 			character.getHit();
 			if (character.getHealth() <= 0) {
@@ -239,9 +245,7 @@ public class GameScreen extends Screen {
 				numEnemies += 1;
 				newAnimation = true;
 				createEnemy();
-			}
-
-			else {
+			} else {
 				createEnemy();
 			}
 		}
@@ -254,8 +258,7 @@ public class GameScreen extends Screen {
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
 
-		while (xCoord == character.getCoords().getX()
-				&& yCoord == character.getCoords().getY()) {
+		while (xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY()) {
 			xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
 			yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
 		}
@@ -297,19 +300,20 @@ public class GameScreen extends Screen {
 	 * draw the Background image of the current level
 	 */
 	private void drawBackground() {
-		if (enemiesKilled < 15) {
-			g.drawPixmap(Assets.background1, 0, 0);
+		/*if (enemiesKilled < 15) {
+			g.drawPixmap(Assets.levelBackground1, 0, 0);
 		}else if(enemiesKilled < 30){
-			g.drawPixmap(Assets.background2, 0, 0);
+			g.drawPixmap(Assets.levelBackground2, 0, 0);
 		}else if(enemiesKilled < 45){
-			g.drawPixmap(Assets.background3, 0, 0);
+			g.drawPixmap(Assets.levelBackground3, 0, 0);
 		}else if(enemiesKilled < 60){
-			g.drawPixmap(Assets.background4, 0, 0);
+			g.drawPixmap(Assets.levelBackground4, 0, 0);
 		}else if(enemiesKilled < 75){
-			g.drawPixmap(Assets.background5, 0, 0);
+			g.drawPixmap(Assets.levelBackground5, 0, 0);
 		}else if(enemiesKilled < 90){
-			g.drawPixmap(Assets.background6, 0, 0);
-		}
+			g.drawPixmap(Assets.levelBackground6, 0, 0);
+		}*/
+		g.drawPixmap(Assets.levelBackground[level.whatLevel()-1], 0, 0);
 	}
 
 	public void drawText(Graphics g, String line, int x, int y) {

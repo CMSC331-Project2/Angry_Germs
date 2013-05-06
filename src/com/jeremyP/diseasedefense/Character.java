@@ -99,10 +99,7 @@ public class Character
 		{
 			this.weapon = null;
 			return false;
-		}
-		
-		else
-		{
+		} else {
 			return true;
 		}
 	}
@@ -119,10 +116,7 @@ public class Character
 			projectileFlying = true;
     		shoot(g, x, y);
 			return false;
-		}
-		
-		else
-		{
+		} else {
 			setCoords(x, y);
 			return true;
 		}

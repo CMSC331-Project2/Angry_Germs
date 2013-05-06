@@ -3,22 +3,42 @@ package com.jeremyP.diseasedefense;
 public class Level {
 
 	//Scores needed to get to next level
-	private static int LEVEL_ONE 	= 15;
-	private static int LEVEL_TWO 	= 16;
-	private static int LEVEL_THREE 	= 17;
-	private static int LEVEL_FOUR 	= 18;
-	private static int LEVEL_FIVE 	= 19;
-	private static int LEVEL_SIX 	= 20;
+	//private static int LEVEL_ONE 	= 20;
+	//private static int LEVEL_TWO 	= 50;
+	//private static int LEVEL_THREE 	= 100;
+	//private static int LEVEL_FOUR 	= 325;
+	//private static int LEVEL_FIVE 	= 700;
+	//private static int LEVEL_SIX 	= 1000;
+	private final static int LEVEL_X[] = {20, 50, 100, 325, 700, 1000};
 	
-	private int currentLevel;
-	private int score;
+	private int currentLevel;	/* Holds the current playing level */
+	private int score;			/* Holds the current score */
+	private boolean changed;	/* Tells whether the level has changed */
 	
 	/**
 	 * Plain constructor that starts you off with score of 0 at LEVEL one
 	 */
 	public Level(){
 		currentLevel = 0;
-		currentLevel = LEVEL_ONE;
+		score = 0;
+		changed = false;
+	}
+	
+	/**
+	 * Tells if the level has changed
+	 * NOTE: When this method is called and it returns true, this will return false until
+	 * 		the level changes again.
+	 * @return
+	 */
+	public boolean isChanged(){
+		
+		if(changed){
+			changed = false;
+			score = 0;
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	/**
@@ -40,6 +60,7 @@ public class Level {
 		//Check to see if got the next level
 		if(score > this.pointsNeeded()){
 			currentLevel++;
+			changed = true;
 			return 1;
 		}else{
 			return 0;
@@ -48,12 +69,28 @@ public class Level {
 	}
 	
 	/**
+	 * Gives the scores
+	 * @return score
+	 */
+	public int getScore(){
+		return score;
+	}
+	
+	/**
+	 * Gives the current level
+	 * @return current level
+	 */
+	public int whatLevel(){
+		return currentLevel;
+	}
+	
+	/**
 	 * Get the amount of points needed to get the next level
 	 * @return points needed
 	 */
 	private int pointsNeeded(){
 		
-		if(currentLevel == LEVEL_ONE){
+		/*if(currentLevel == LEVEL_ONE){
 			return LEVEL_ONE;
 		}else if(currentLevel == LEVEL_TWO){
 			return LEVEL_TWO;
@@ -69,9 +106,8 @@ public class Level {
 			
 			//You should really never get to here
 			return 0;
-		}
+		}*/
+		
+		return LEVEL_X[currentLevel-1];
 	}
-	
-	
-	
 }

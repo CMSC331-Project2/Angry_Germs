@@ -64,10 +64,7 @@ public class Projectile
 		if (distX > currentX || distY > currentY)
 		{
 			return false;
-		}
-		
-		else
-		{
+		}  else {
 			return true;
 		}
 	}
@@ -89,29 +86,18 @@ public class Projectile
 		if ((xDiff > speed || xDiff < -speed) || (yDiff > speed || yDiff < -speed))
 		{
 			this.stopped = false;
-			if ((originX < destX))
-			{
+			if ((originX < destX)) {
 				origin.setX(originX + speed);
-			}
-		
-			else
-			{
+			} else {
 				origin.setX(originX - speed);
 			}
 		
-			if ((originY < destY))
-			{
+			if ((originY < destY)) {
 				origin.setY(originY + speed);
-			}
-		
-			else
-			{
+			} else {
 				origin.setY(originY - speed);
 			}
-		}
-		
-		else
-		{
+		} else {
 			this.stopped = true;
 		}
 	}
