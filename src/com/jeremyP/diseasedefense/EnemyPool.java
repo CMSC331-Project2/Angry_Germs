@@ -40,6 +40,9 @@ public class EnemyPool
 	 	      yCoord = min + (int)(Math.random() * ((maxY - min) + 1));
 	 		}
 	     	
+	     	xCoord = 0;
+	     	yCoord = 0;
+	     	
 	 	    enemy.setCoords(xCoord, yCoord);
 	 	    enemyPool.add(i, enemy);
 		}
