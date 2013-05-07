@@ -9,8 +9,9 @@ public class Level {
 	//private static int LEVEL_FOUR 	= 325;
 	//private static int LEVEL_FIVE 	= 700;
 	//private static int LEVEL_SIX 	= 1000;
-	private final static int LEVEL_X[] = {20, 50, 100, 325, 700, 1000};
-	
+	//private final static int LEVEL_X[] = {2, 50, 100, 325, 700, 1000};
+	private final static int LEVEL_X[] = {2, 4, 6, 8, 10, 12};
+
 	private int currentLevel;	/* Holds the current playing level */
 	private int score;			/* Holds the current score */
 	private boolean changed;	/* Tells whether the level has changed */
@@ -19,11 +20,18 @@ public class Level {
 	 * Plain constructor that starts you off with score of 0 at LEVEL one
 	 */
 	public Level(){
-		currentLevel = 0;
+		currentLevel = 1;
 		score = 0;
 		changed = false;
 	}
 	
+	/**
+	 * Returns whether the last level has been beaten or not
+	 * @return whether the game has been beaten
+	 */
+	public boolean isEnd(){
+		return currentLevel > LEVEL_X.length;
+	}
 	/**
 	 * Tells if the level has changed
 	 * NOTE: When this method is called and it returns true, this will return false until

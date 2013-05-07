@@ -26,18 +26,13 @@ public class Assets
 	public static Pixmap pc11;
 	public static Pixmap pc12;
 	public static Pixmap pc13;
-	public static Pixmap badGuy1;
-	public static Pixmap badGuy2;
-	public static Pixmap badGuy3;
-	public static Pixmap badGuy4;
-	public static Pixmap badGuy5;
-	public static Pixmap badGuy6;
-	public static Pixmap badGuy7;
-	public static Pixmap badGuy2_1;
-	public static Pixmap badGuy2_2;
-	public static Pixmap badGuy2_3;
-	public static Pixmap badGuy2_4;
-	public static Pixmap badGuy2_5;
+	public static Pixmap contin;
+	public static Pixmap youWin;
+	/*
+	 * First index defines which enemy.
+	 * Second index hold the images for that particular enemy
+	 */
+	public static Pixmap badGuys[][] = new Pixmap[2][]; 
 	public static Pixmap mainmenu;
 	public static Pixmap pauseMenu;
 	public static Pixmap pauseButton;

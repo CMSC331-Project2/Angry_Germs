@@ -30,7 +30,7 @@ public class EnemyPool
 	{
 		for (int i = 0; i < maxEnemies; i++)
 		{
-			Enemy enemy = new Enemy(g, enemySpeed, 1, false);
+			Enemy enemy = new Enemy(g, Assets.badGuys[0], enemySpeed, 1, 1);
 	     	
 	     	int xCoord = character.getCoords().getX();
 	 		int yCoord = character.getCoords().getY();
@@ -60,7 +60,7 @@ public class EnemyPool
 	
 	public void newEnemy(Character character)
 	{
-		Enemy enemy = new Enemy(g, enemySpeed, 1, false);
+		Enemy enemy = new Enemy(g, Assets.badGuys[0], enemySpeed, 1, 1);
      	
      	int xCoord = character.getCoords().getX();
  		int yCoord = character.getCoords().getY();

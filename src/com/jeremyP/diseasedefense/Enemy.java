@@ -14,32 +14,30 @@ public class Enemy {
 	private Graphics g;
 	private ArrayList<Pixmap> animation;
 	private boolean projectileFlying;
-	private boolean newAnimation;
+	private Pixmap enemy[];
 	private int width;
 	private int height;
 	private int centerX;
 	private int centerY;
-	private int health;
+	private int totalHealth;
+	private int currentHealth;
 	private int frameCount;
 	private int speed;
+	private int points;
 
-	public Enemy(Graphics g, int speed, int health, boolean newAnimation) {
+	//TODO: ADD POINTS PARAMETER
+	public Enemy(Graphics g, Pixmap enemy[], int speed, int health, int points) {
 		this.coords = new Vector2i();
 		this.g = g;
 		this.animation = new ArrayList<Pixmap>();
-		this.newAnimation = newAnimation;
-		if (!newAnimation) {
-			this.loadAnimation1();
-		}
-
-		else {
-			this.loadAnimation1();
-		}
+		this.enemy = enemy;
+		loadAnimation();
+		this.points = points;
 		this.height = animation.get(0).getHeight();
 		this.width = animation.get(0).getWidth();
 		this.centerX = (getWidth() / 4);
 		this.centerY = (getHeight() / 4);
-		this.health = health;
+		this.totalHealth = currentHealth = health;
 		this.projectileFlying = false;
 		this.speed = speed;
 		setCoords(0, 0);
@@ -87,25 +85,22 @@ public class Enemy {
 	}
 
 	public int getHealth() {
-		return health;
+		return totalHealth;
 	}
 
-	public void loadAnimation1() {
-		animation.add(Assets.badGuy1);
-		animation.add(Assets.badGuy2);
-		animation.add(Assets.badGuy3);
-		animation.add(Assets.badGuy4);
-		animation.add(Assets.badGuy5);
-		animation.add(Assets.badGuy6);
-		animation.add(Assets.badGuy7);
+	public int getScore(){
+		return points;
 	}
-
-	public void loadAnimation2() {
-		animation.add(Assets.badGuy2_1);
-		animation.add(Assets.badGuy2_2);
-		animation.add(Assets.badGuy2_3);
-		animation.add(Assets.badGuy2_4);
-		animation.add(Assets.badGuy2_5);
+	
+	public boolean isDead(){
+		return currentHealth < 1;
+	}
+	
+	public void loadAnimation() {
+		
+		for(int i=0; i < enemy.length; i++){
+			animation.add(enemy[i]);
+		}
 	}
 
 	public void shoot(Graphics g, int x, int y) {
@@ -126,7 +121,7 @@ public class Enemy {
 	}
 
 	public void getHit() {
-		this.health -= 1;
+		this.currentHealth -= 1;
 	}
 
 	public boolean hasCollided(Vector2i enemyCoords) {
@@ -177,11 +172,11 @@ public class Enemy {
 		}
 	}
 
-	public void newAnimation() {
+	/*public void newAnimation() {
 		animation.clear();
 		loadAnimation2();
 		newAnimation = true;
-	}
+	}*/
 
 	private void draw(Graphics g) {
 		if (frameCount % 30 == 0) {
@@ -194,15 +189,7 @@ public class Enemy {
 			animation.remove(0);
 		}
 
-		if (animation.size() == 0) {
-			if (!newAnimation) {
-				loadAnimation1();
-			}
-
-			else {
-				loadAnimation2();
-			}
-		}
+		loadAnimation();
 
 		frameCount += 1;
 	}

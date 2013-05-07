@@ -2,6 +2,7 @@ package com.jeremyP.diseasedefense;
 
 import com.jeremyP.diseasedefense.framework.Game;
 import com.jeremyP.diseasedefense.framework.Graphics;
+import com.jeremyP.diseasedefense.framework.Pixmap;
 import com.jeremyP.diseasedefense.framework.Screen;
 import com.jeremyP.diseasedefense.framework.Graphics.PixmapFormat;
 
@@ -19,8 +20,8 @@ public class LoadingScreen extends Screen
 		Assets.levelBackground[1] = g.newPixmap("brain.png", PixmapFormat.RGB565);
 		Assets.levelBackground[2] = g.newPixmap("blue_blood_cell.jpg", PixmapFormat.RGB565);
 		Assets.levelBackground[3] = g.newPixmap("inside-human-body-2-28.jpg", PixmapFormat.RGB565);
-		Assets.levelBackground[4] = g.newPixmap("inside_human_heart.jpg", PixmapFormat.RGB565);
-		Assets.levelBackground[5] = g.newPixmap("fetus.jpg", PixmapFormat.RGB565);
+		Assets.levelBackground[4] = g.newPixmap("purple-blood-cells.jpg", PixmapFormat.RGB565);
+		Assets.levelBackground[5] = g.newPixmap("inside_human_heart.jpg", PixmapFormat.RGB565);
 		Assets.helpScreen1 = g.newPixmap("helpScreen1.png", PixmapFormat.RGB565);
 		Assets.helpScreen2 = g.newPixmap("helpScreen2.png", PixmapFormat.RGB565);
 		Assets.helpScreen3 = g.newPixmap("helpScreen3.png", PixmapFormat.RGB565);
@@ -42,22 +43,30 @@ public class LoadingScreen extends Screen
 		Assets.pc13 = g.newPixmap("luketheleukocyte13.png", PixmapFormat.ARGB4444);
 		Assets.title = g.newPixmap("diseasedefensetitle.png", PixmapFormat.ARGB4444);
 		Assets.gameover = g.newPixmap("gameover.png", PixmapFormat.ARGB4444);
+		Assets.youWin = g.newPixmap("You_win.png", PixmapFormat.ARGB4444);
+		Assets.contin = g.newPixmap("continue_button.png", PixmapFormat.ARGB4444);
 		Assets.mainmenu = g.newPixmap("menubuttons.png", PixmapFormat.ARGB4444);
 		Assets.pauseMenu = g.newPixmap("pauseMenu.png", PixmapFormat.ARGB4444);
 		Assets.pauseButton = g.newPixmap("pauseButton.png", PixmapFormat.ARGB4444);
 		Assets.numbers = g.newPixmap("numbers.png", PixmapFormat.ARGB4444);
-		Assets.badGuy1 = g.newPixmap("badGuy.png", PixmapFormat.ARGB4444);
-		Assets.badGuy2 = g.newPixmap("badGuy2.png", PixmapFormat.ARGB4444);
-		Assets.badGuy3 = g.newPixmap("badGuy3.png", PixmapFormat.ARGB4444);
-		Assets.badGuy4 = g.newPixmap("badGuy4.png", PixmapFormat.ARGB4444);
-		Assets.badGuy5 = g.newPixmap("badGuy5.png", PixmapFormat.ARGB4444);
-		Assets.badGuy6 = g.newPixmap("badGuy6.png", PixmapFormat.ARGB4444);
-		Assets.badGuy7 = g.newPixmap("badGuy7.png", PixmapFormat.ARGB4444);
-		Assets.badGuy2_1 = g.newPixmap("badGuy2-1.png", PixmapFormat.ARGB4444);
-		Assets.badGuy2_2 = g.newPixmap("badGuy2-2.png", PixmapFormat.ARGB4444);
-		Assets.badGuy2_3 = g.newPixmap("badGuy2-3.png", PixmapFormat.ARGB4444);
-		Assets.badGuy2_4 = g.newPixmap("badGuy2-4.png", PixmapFormat.ARGB4444);
-		Assets.badGuy2_5 = g.newPixmap("badGuy2-5.png", PixmapFormat.ARGB4444);
+		
+		//First badguy
+		Assets.badGuys[0] = new Pixmap[7];
+		Assets.badGuys[0][0] = g.newPixmap("badGuy.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[0][1] = g.newPixmap("badGuy2.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[0][2] = g.newPixmap("badGuy3.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[0][3] = g.newPixmap("badGuy4.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[0][4] = g.newPixmap("badGuy5.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[0][5] = g.newPixmap("badGuy6.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[0][6] = g.newPixmap("badGuy7.png", PixmapFormat.ARGB4444);
+		
+		//Second badguy
+		Assets.badGuys[1] = new Pixmap[5];
+		Assets.badGuys[1][0] = g.newPixmap("badGuy2-1.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[1][1] = g.newPixmap("badGuy2-2.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[1][2] = g.newPixmap("badGuy2-3.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[1][3] = g.newPixmap("badGuy2-4.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[1][4] = g.newPixmap("badGuy2-5.png", PixmapFormat.ARGB4444);
 		Assets.click = game.getAudio().newSound("click.ogg");
 		game.setScreen(new MainMenuScreen(game));
 	}
