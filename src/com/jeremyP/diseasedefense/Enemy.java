@@ -25,7 +25,6 @@ public class Enemy {
 	private int speed;
 	private int points;
 
-	//TODO: ADD POINTS PARAMETER
 	public Enemy(Graphics g, Pixmap enemy[], int speed, int health, int points) {
 		this.coords = new Vector2i();
 		this.g = g;
@@ -96,7 +95,7 @@ public class Enemy {
 		return currentHealth < 1;
 	}
 	
-	public void loadAnimation() {
+	private void loadAnimation() {
 		
 		for(int i=0; i < enemy.length; i++){
 			animation.add(enemy[i]);

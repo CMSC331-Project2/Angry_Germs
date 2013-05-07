@@ -133,7 +133,7 @@ public class GameScreen extends Screen {
 					int health = enemy.get(enemySum-1).getHealth() +1;
 					int points = enemy.get(enemySum-1).getSpeed() +1;
 					
-					//TODO: Add more new enemy types in the assests
+					//TODO: Add more new enemy types into the assets
 					//This if statement will stay here until more enemy variations are created
 					if(level.whatLevel() < 3){
 						Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
@@ -235,8 +235,8 @@ public class GameScreen extends Screen {
 	
 	public void drawBeaten(){
 		g.clear(0);
-		g.drawPixmap(Assets.youWin, -15, 100);
-		g.drawPixmap(Assets.contin, 50, 100);
+		g.drawPixmap(Assets.youWin, 0, 75);
+		g.drawPixmap(Assets.contin, 75, 200);
 	}
 
 	public void drawRunning() {
