@@ -53,6 +53,15 @@ public class GameScreen extends Screen {
 		//enemiesKilled = 0;
 	}
 
+	/**
+	 * This method is the main logical loop of the game. It determines which state the game is
+	 * in by checking which enum state is equal to. GameState.Running is where the main action takes
+	 * place. GameState.GameOver is when the player loses all of their health and is sent to a game over
+	 * screen. GameState.Beaten is the screen shown when the player wins the game. GameState.Paused is
+	 * when the player pauses the game.
+	 * 
+	 * No drawing happens within any of the update loops.
+	 */
 	@Override
 	public void update(float deltaTime) {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
