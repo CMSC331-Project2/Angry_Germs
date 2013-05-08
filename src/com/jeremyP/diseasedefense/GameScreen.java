@@ -162,7 +162,7 @@ public class GameScreen extends Screen {
 		}
 
 		//Create new enemy after he's dead
-		if(enemyindex == -1){
+		if(enemyindex == -1 && character != null){
 			createEnemy();
 		}
 		/*if (enemy == null && timer % 100 == 0) {
@@ -250,12 +250,13 @@ public class GameScreen extends Screen {
 		}
 
 		//Draw enemy health
-		/*if (enemy != null) {
-			for (int i = 0; i < enemy.getHealth(); i++) {
+		if (enemy != null) 
+		{
+			for (int i = 0; i < enemy.get(enemyindex).getHealth(); i++) {
 				g.drawRect(xEnemyOffset + 275, 20, 25, 25, Color.GREEN);
 				xEnemyOffset -= 50;
 			}
-		}*/
+		}
 
 		//if (enemy != null) {
 		if(enemyindex != -1){
