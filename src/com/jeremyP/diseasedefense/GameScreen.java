@@ -119,10 +119,10 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) {
 			enemy.get(enemyindex).getHit();
-			character.stopFlying();
+			character.stopProjectile();
 			if (enemy.get(enemyindex).isDead()) {
 				//enemy = null;
-				character.stopFlying();
+				character.stopProjectile();
 				//enemiesKilled += 1;
 				level.addScore(enemy.get(enemyindex).getScore());
 				enemyindex = -1;
