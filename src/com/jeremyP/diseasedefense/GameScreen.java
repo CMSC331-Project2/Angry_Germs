@@ -233,10 +233,13 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.gameover, -15, 100);
 	}
 	
+	/**
+	 * Draw You Win screen
+	 */
 	public void drawBeaten(){
 		g.clear(0);
 		g.drawPixmap(Assets.youWin, 0, 75);
-		g.drawPixmap(Assets.contin, 75, 200);
+		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.9)));
 	}
 
 	public void drawRunning() {
