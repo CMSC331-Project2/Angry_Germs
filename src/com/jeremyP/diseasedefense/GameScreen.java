@@ -289,50 +289,6 @@ public class GameScreen extends Screen {
 
 	}
 
-	/**
-	 * NOT BEING USED
-	 * @param enemy
-	 */
-	/*public void enemyCheck(Enemy enemy) {
-		if (enemy != null && character != null) {
-			enemy.update(character.getCoords());
-		}
-
-		if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
-			enemy.getHit();
-			character.stopFlying();
-			if (enemy.getHealth() <= 0) {
-				enemy = null;
-				character.stopFlying();
-				enemiesKilled += 1;
-				level.addScore();
-				//Check if level has changed
-			}
-		}
-
-		if (enemy != null && character != null && character.hasCollided(enemy.getCoords())) {
-			enemy = null;
-			character.getHit();
-			if (character.getHealth() <= 0) {
-				character = null;
-				state = GameState.GameOver;
-			}
-		}
-
-		if (enemy == null && timer % 100 == 0) {
-			if (enemiesKilled % 30 == 0 && enemiesKilled != 0) {
-				enemyHealth += 1;
-				numEnemies += 1;
-				newAnimation = true;
-				createEnemy();
-			} else {
-				createEnemy();
-			}
-		}
-
-		timer += 1;
-	}*/
-
 	public void createEnemy() {
 		//enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);
 		
