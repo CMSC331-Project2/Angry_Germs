@@ -72,7 +72,8 @@ public class EnemyPool
  	      yCoord = min + (int)(Math.random() * ((maxY - min) + 1));
  		}
      	
- 	    enemy.setCoords(xCoord, yCoord);
+ 	    //
+     	enemy.setCoords(0, 0);
  	    enemyPool.add(enemy);
 	}
 }
