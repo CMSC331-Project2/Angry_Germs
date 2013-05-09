@@ -345,7 +345,8 @@ public class GameScreen extends Screen {
 			yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
 		}
 
-		enemy.get(enemyindex).setCoords(xCoord, yCoord);
+		//enemy.get(enemyindex).setCoords(xCoord, yCoord);
+		enemy.get(enemyindex).setCoords(0, 0);
 	}
 
 	@Override

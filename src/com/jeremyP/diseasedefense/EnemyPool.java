@@ -32,6 +32,7 @@ public class EnemyPool
 		{
 			Enemy enemy = new Enemy(g, Assets.badGuys[0], enemySpeed, 1, 1);
 	     	
+	     	/*
 	     	int xCoord = character.getCoords().getX();
 	 		int yCoord = character.getCoords().getY();
 	     	while(xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY())
@@ -42,6 +43,7 @@ public class EnemyPool
 	     	
 	     	
 	 	    //enemy.setCoords(xCoord, yCoord);
+	 	    */
 	     	enemy.setCoords(0, 0);
 	 	    enemyPool.add(i, enemy);
 		}
@@ -64,6 +66,7 @@ public class EnemyPool
 	{
 		Enemy enemy = new Enemy(g, Assets.badGuys[0], enemySpeed, 1, 1);
      	
+		/*
      	int xCoord = character.getCoords().getX();
  		int yCoord = character.getCoords().getY();
      	while(xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY())
@@ -73,6 +76,7 @@ public class EnemyPool
  		}
      	
  	    //enemy.setCoords(xCoord, yCoord);
+ 	    */
      	enemy.setCoords(0, 0);
  	    enemyPool.add(enemy);
 	}
