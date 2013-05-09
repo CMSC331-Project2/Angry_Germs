@@ -119,9 +119,9 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
-			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
+			System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
 			if (enemy.get(enemyindex).isDead()) 
 			{
