@@ -53,6 +53,15 @@ public class GameScreen extends Screen {
 		//enemiesKilled = 0;
 	}
 
+	/**
+	 * This method is the main logical loop of the game. It determines which state the game is
+	 * in by checking which enum state is equal to. GameState.Running is where the main action takes
+	 * place. GameState.GameOver is when the player loses all of their health and is sent to a game over
+	 * screen. GameState.Beaten is the screen shown when the player wins the game. GameState.Paused is
+	 * when the player pauses the game.
+	 * 
+	 * No drawing happens within any of the update loops.
+	 */
 	@Override
 	public void update(float deltaTime) {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -108,18 +117,23 @@ public class GameScreen extends Screen {
 
 		//The enemy has been hit
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
-		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) {
+		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
+		{
+			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			character.stopFlying();
-			if (enemy.get(enemyindex).isDead()) {
+			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			character.stopProjectile();
+			if (enemy.get(enemyindex).isDead()) 
+			{
 				//enemy = null;
-				character.stopFlying();
+				character.stopProjectile();
 				//enemiesKilled += 1;
 				level.addScore(enemy.get(enemyindex).getScore());
 				enemyindex = -1;
 				
 				//You've beaten the game
-				if(level.isEnd()){
+				if(level.isEnd())
+				{
 					state = GameState.Beaten;
 				}
 				//You've gone to the next level
@@ -130,7 +144,7 @@ public class GameScreen extends Screen {
 					//int speed = enemy.get(enemySum-1).getSpeed() +1;
 					int speed = 1;
 					//TODO: Figure out how to make different badGuys go faster than others
-					int health = enemy.get(enemySum-1).getHealth() +1;
+					int health = enemy.get(enemySum-1).getTotalHealth() +1;
 					int points = enemy.get(enemySum-1).getSpeed() +1;
 					
 					//TODO: Add more new enemy types into the assets
@@ -162,7 +176,8 @@ public class GameScreen extends Screen {
 		}
 
 		//Create new enemy after he's dead
-		if(enemyindex == -1){
+		if(enemyindex == -1 && character != null)
+		{
 			createEnemy();
 		}
 		/*if (enemy == null && timer % 100 == 0) {
@@ -251,14 +266,15 @@ public class GameScreen extends Screen {
 			g.drawRect(xOffset + 10, g.getHeight() - 20, 25, 25, Color.BLUE);
 			xOffset += 50;
 		}
-
+       
 		//Draw enemy health
-		/*if (enemy != null) {
-			for (int i = 0; i < enemy.getHealth(); i++) {
+		if (enemy != null) 
+		{
+			for (int i = 0; i < enemy.get(enemyindex).getCurrentHealth(); i++) {
 				g.drawRect(xEnemyOffset + 275, 20, 25, 25, Color.GREEN);
 				xEnemyOffset -= 50;
 			}
-		}*/
+		}
 
 		//if (enemy != null) {
 		if(enemyindex != -1){

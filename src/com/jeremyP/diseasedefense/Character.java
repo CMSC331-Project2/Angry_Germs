@@ -197,7 +197,7 @@ public class Character
 		return projectileFlying;
 	}
 	
-	public void stopFlying()
+	public void stopProjectile()
 	{
 		projectileFlying = false;
 		weapon = null;
