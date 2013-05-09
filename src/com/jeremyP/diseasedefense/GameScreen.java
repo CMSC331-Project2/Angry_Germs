@@ -117,10 +117,14 @@ public class GameScreen extends Screen {
 
 		//The enemy has been hit
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
-		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) {
+		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
+		{
+			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
+			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
-			if (enemy.get(enemyindex).isDead()) {
+			if (enemy.get(enemyindex).isDead()) 
+			{
 				//enemy = null;
 				character.stopProjectile();
 				//enemiesKilled += 1;
@@ -128,7 +132,8 @@ public class GameScreen extends Screen {
 				enemyindex = -1;
 				
 				//You've beaten the game
-				if(level.isEnd()){
+				if(level.isEnd())
+				{
 					state = GameState.Beaten;
 				}
 				//You've gone to the next level
@@ -139,7 +144,7 @@ public class GameScreen extends Screen {
 					//int speed = enemy.get(enemySum-1).getSpeed() +1;
 					int speed = 1;
 					//TODO: Figure out how to make different badGuys go faster than others
-					int health = enemy.get(enemySum-1).getHealth() +1;
+					int health = enemy.get(enemySum-1).getTotalHealth() +1;
 					int points = enemy.get(enemySum-1).getSpeed() +1;
 					
 					//TODO: Add more new enemy types into the assets
@@ -171,7 +176,8 @@ public class GameScreen extends Screen {
 		}
 
 		//Create new enemy after he's dead
-		if(enemyindex == -1 && character != null){
+		if(enemyindex == -1 && character != null)
+		{
 			createEnemy();
 		}
 		/*if (enemy == null && timer % 100 == 0) {
@@ -257,11 +263,11 @@ public class GameScreen extends Screen {
 			g.drawRect(xOffset + 10, g.getHeight() - 20, 25, 25, Color.BLUE);
 			xOffset += 50;
 		}
-
+       
 		//Draw enemy health
 		if (enemy != null) 
 		{
-			for (int i = 0; i < enemy.get(enemyindex).getHealth(); i++) {
+			for (int i = 0; i < enemy.get(enemyindex).getCurrentHealth(); i++) {
 				g.drawRect(xEnemyOffset + 275, 20, 25, 25, Color.GREEN);
 				xEnemyOffset -= 50;
 			}

@@ -36,7 +36,8 @@ public class Enemy {
 		this.width = animation.get(0).getWidth();
 		this.centerX = (getWidth() / 4);
 		this.centerY = (getHeight() / 4);
-		this.totalHealth = currentHealth = health;
+		this.totalHealth = health;
+		this.currentHealth = health;
 		this.projectileFlying = false;
 		this.speed = speed;
 		setCoords(0, 0);
@@ -83,8 +84,12 @@ public class Enemy {
 		return speed;
 	}
 
-	public int getHealth() {
+	public int getTotalHealth() {
 		return totalHealth;
+	}
+	
+	public int getCurrentHealth() {
+		return currentHealth;
 	}
 
 	public int getScore(){
@@ -92,7 +97,7 @@ public class Enemy {
 	}
 	
 	public boolean isDead(){
-		return currentHealth < 1;
+		return currentHealth <= 0;
 	}
 	
 	private void loadAnimation() {
