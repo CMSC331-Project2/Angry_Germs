@@ -121,11 +121,11 @@ public class GameScreen extends Screen {
 		{
 			System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			enemy.get(enemyindex).revive();
 			System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
 			if (enemy.get(enemyindex).isDead()) 
 			{
+				enemy.get(enemyindex).revive();
 				//enemy = null;
 				character.stopProjectile();
 				//enemiesKilled += 1;
@@ -136,9 +136,7 @@ public class GameScreen extends Screen {
 				if(level.isEnd())
 				{
 					state = GameState.Beaten;
-				}
-				
-				//You've gone to the next level
+				}//You've gone to the next level
 				else if(level.isChanged()){
 					int enemySum = enemy.size();
 					
@@ -176,6 +174,7 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.hasCollided(enemy.getCoords())) {
 		if (enemyindex != -1 && character != null && character.hasCollided(enemy.get(enemyindex).getCoords())) {
 			//enemy = null;
+			enemy.get(enemyindex).revive();
 			enemyindex = -1;
 			character.getHit();
 			if (character.getHealth() <= 0) {

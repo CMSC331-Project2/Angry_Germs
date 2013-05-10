@@ -13,7 +13,7 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="Disease Defense"
+        android:label="Angry Germs"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".GameStart"
