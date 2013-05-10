@@ -118,4 +118,5 @@ public class Level {
 		
 		return LEVEL_X[currentLevel-1];
 	}
+
 }

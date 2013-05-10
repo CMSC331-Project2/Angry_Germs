@@ -140,6 +140,10 @@ public class GameScreen extends Screen {
 					state = GameState.Beaten;
 				}//You've gone to the next level
 				else if(level.isChanged()){
+					
+					//Display nextlevel Screen
+					//game.setScreen(new NextLevelScreen(game, level, this));
+					
 					int enemySum = enemy.size();
 					
 					//Create new level enemy
@@ -157,7 +161,7 @@ public class GameScreen extends Screen {
 					
 					//This if statement will stay here until more enemy variations are created
 					//TODO: Change the 3 as more enemy pictures are made
-					if(level.whatLevel() < 3){
+					if(level.whatLevel() < 4){
 						Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
 						
 						//Add new level enemy
@@ -224,7 +228,23 @@ public class GameScreen extends Screen {
 	
 	//TODO: Calculate what happens when the users wins!
 	private void updateBeaten(List<TouchEvent> touchEvents){
-		;
+		int len = touchEvents.size();
+		for (int i = 0; i < len; i++) {
+			TouchEvent event = touchEvents.get(i);
+			if (event.type == TouchEvent.TOUCH_UP) {
+				
+				int contin_x = g.getWidth()/2 - Assets.contin.getWidth()/2;
+				int contin_y = (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight();
+				
+				//Did you click the Continue button?
+				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() 
+						&& event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
+					g.clear(0);
+					game.setScreen(new MainMenuScreen(game));
+					return;
+				}
+			}
+		}
 	}
 
 	private void updatePaused(List<TouchEvent> touchEvents) {
@@ -265,7 +285,7 @@ public class GameScreen extends Screen {
 	public void drawBeaten(){
 		g.clear(0);
 		g.drawPixmap(Assets.youWin, 0, 75);
-		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.9)));
+		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 
 	public void drawRunning() {
