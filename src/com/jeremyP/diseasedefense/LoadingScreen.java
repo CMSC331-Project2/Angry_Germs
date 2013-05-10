@@ -19,9 +19,8 @@ public class LoadingScreen extends Screen
 		Assets.levelBackground[0] = g.newPixmap("bloodstream.png", PixmapFormat.RGB565);
 		Assets.levelBackground[1] = g.newPixmap("brain.png", PixmapFormat.RGB565);
 		Assets.levelBackground[2] = g.newPixmap("blue_blood_cell.png", PixmapFormat.RGB565);
-		Assets.levelBackground[3] = g.newPixmap("inside-human-body-2-28.png", PixmapFormat.RGB565);
-		Assets.levelBackground[4] = g.newPixmap("purple-blood-cells.png", PixmapFormat.RGB565);
-		Assets.levelBackground[5] = g.newPixmap("inside_human_heart.png", PixmapFormat.RGB565);
+		Assets.levelBackground[3] = g.newPixmap("purple-blood-cells.png", PixmapFormat.RGB565);
+		Assets.levelBackground[4] = g.newPixmap("inside_human_heart.png", PixmapFormat.RGB565);
 		Assets.helpScreen1 = g.newPixmap("helpScreen1.png", PixmapFormat.RGB565);
 		Assets.helpScreen2 = g.newPixmap("helpScreen2.png", PixmapFormat.RGB565);
 		Assets.helpScreen3 = g.newPixmap("helpScreen3.png", PixmapFormat.RGB565);

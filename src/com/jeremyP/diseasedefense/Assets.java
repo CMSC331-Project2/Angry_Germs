@@ -5,7 +5,7 @@ import com.jeremyP.diseasedefense.framework.Sound;
 
 public class Assets 
 {
-	public static Pixmap levelBackground[] = new Pixmap[6];
+	public static Pixmap levelBackground[] = new Pixmap[5];
 	public static Pixmap helpScreen1;
 	public static Pixmap helpScreen2;
 	public static Pixmap helpScreen3;

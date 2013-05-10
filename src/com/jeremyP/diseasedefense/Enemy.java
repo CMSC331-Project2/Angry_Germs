@@ -100,6 +100,10 @@ public class Enemy {
 		return currentHealth <= 0;
 	}
 	
+	public void revive(){
+		currentHealth = totalHealth;
+	}
+	
 	private void loadAnimation() {
 		
 		for(int i=0; i < enemy.length; i++){

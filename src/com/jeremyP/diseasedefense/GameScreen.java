@@ -119,9 +119,10 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
-			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
+			System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			enemy.get(enemyindex).revive();
+			System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
 			if (enemy.get(enemyindex).isDead()) 
 			{
@@ -136,6 +137,7 @@ public class GameScreen extends Screen {
 				{
 					state = GameState.Beaten;
 				}
+				
 				//You've gone to the next level
 				else if(level.isChanged()){
 					int enemySum = enemy.size();
@@ -148,7 +150,14 @@ public class GameScreen extends Screen {
 					int points = enemy.get(enemySum-1).getSpeed() +1;
 					
 					//TODO: Add more new enemy types into the assets
+					
+					//Add old enemies from enemy array starting brand new
+					/*for(int i=0; i < enemy.size(); i++){
+						enemy.get(i).revive();
+					}*/
+					
 					//This if statement will stay here until more enemy variations are created
+					//TODO: Change the 3 as more enemy pictures are made
 					if(level.whatLevel() < 3){
 						Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
 						
@@ -291,50 +300,6 @@ public class GameScreen extends Screen {
 		drawText(g, Integer.toString(level.getScore()), g.getWidth() - 60, g.getHeight() - 35);
 
 	}
-
-	/**
-	 * NOT BEING USED
-	 * @param enemy
-	 */
-	/*public void enemyCheck(Enemy enemy) {
-		if (enemy != null && character != null) {
-			enemy.update(character.getCoords());
-		}
-
-		if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
-			enemy.getHit();
-			character.stopFlying();
-			if (enemy.getHealth() <= 0) {
-				enemy = null;
-				character.stopFlying();
-				enemiesKilled += 1;
-				level.addScore();
-				//Check if level has changed
-			}
-		}
-
-		if (enemy != null && character != null && character.hasCollided(enemy.getCoords())) {
-			enemy = null;
-			character.getHit();
-			if (character.getHealth() <= 0) {
-				character = null;
-				state = GameState.GameOver;
-			}
-		}
-
-		if (enemy == null && timer % 100 == 0) {
-			if (enemiesKilled % 30 == 0 && enemiesKilled != 0) {
-				enemyHealth += 1;
-				numEnemies += 1;
-				newAnimation = true;
-				createEnemy();
-			} else {
-				createEnemy();
-			}
-		}
-
-		timer += 1;
-	}*/
 
 	public void createEnemy() {
 		//enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);

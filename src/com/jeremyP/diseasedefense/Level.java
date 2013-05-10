@@ -10,7 +10,7 @@ public class Level {
 	//private static int LEVEL_FIVE 	= 700;
 	//private static int LEVEL_SIX 	= 1000;
 	//private final static int LEVEL_X[] = {2, 50, 100, 325, 700, 1000};
-	private final static int LEVEL_X[] = {2, 4, 6, 8, 10, 12};
+	private final static int LEVEL_X[] = {2, 4, 6, 8, 10};
 
 	private int currentLevel;	/* Holds the current playing level */
 	private int score;			/* Holds the current score */
