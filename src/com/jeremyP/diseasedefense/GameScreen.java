@@ -119,11 +119,11 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
-			System.out.println(enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			enemy.get(enemyindex).revive();
-			System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
+			
 			if (enemy.get(enemyindex).isDead()) 
 			{
 				//enemy = null;
@@ -148,7 +148,6 @@ public class GameScreen extends Screen {
 					//TODO: Figure out how to make different badGuys go faster than others
 					int health = enemy.get(enemySum-1).getTotalHealth() +1;
 					int points = enemy.get(enemySum-1).getSpeed() +1;
-					
 					//TODO: Add more new enemy types into the assets
 					
 					//Add old enemies from enemy array starting brand new
@@ -163,8 +162,10 @@ public class GameScreen extends Screen {
 						
 						//Add new level enemy
 						int moreEnemies = enemySum * 2;
+						System.out.println(moreEnemies);
 						for(int i=0; i < moreEnemies; i++){
 							enemy.add(newenemy);
+							System.out.println("Enemy added " + enemy.size());
 						}
 					}
 					
@@ -186,7 +187,7 @@ public class GameScreen extends Screen {
 
 		//Create new enemy after he's dead
 		if(enemyindex == -1 && character != null)
-		{
+		{	
 			createEnemy();
 		}
 		/*if (enemy == null && timer % 100 == 0) {
@@ -302,6 +303,7 @@ public class GameScreen extends Screen {
 		//enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);
 		
 		enemyindex = (new Random()).nextInt(enemy.size());
+		System.out.println(enemyindex);
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
 
