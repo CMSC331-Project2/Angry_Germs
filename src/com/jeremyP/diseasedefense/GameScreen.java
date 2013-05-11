@@ -119,13 +119,15 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
-			System.out.println(enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			enemy.get(enemyindex).revive();
 			System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
+			
 			if (enemy.get(enemyindex).isDead()) 
 			{
+				enemy.get(enemyindex).revive();
 				//enemy = null;
 				character.stopProjectile();
 				//enemiesKilled += 1;
@@ -136,10 +138,12 @@ public class GameScreen extends Screen {
 				if(level.isEnd())
 				{
 					state = GameState.Beaten;
-				}
-				
-				//You've gone to the next level
+				}//You've gone to the next level
 				else if(level.isChanged()){
+					
+					//Display nextlevel Screen
+					//game.setScreen(new NextLevelScreen(game, level, this));
+					
 					int enemySum = enemy.size();
 					
 					//Create new level enemy
@@ -148,7 +152,6 @@ public class GameScreen extends Screen {
 					//TODO: Figure out how to make different badGuys go faster than others
 					int health = enemy.get(enemySum-1).getTotalHealth() +1;
 					int points = enemy.get(enemySum-1).getSpeed() +1;
-					
 					//TODO: Add more new enemy types into the assets
 					
 					//Add old enemies from enemy array starting brand new
@@ -158,13 +161,15 @@ public class GameScreen extends Screen {
 					
 					//This if statement will stay here until more enemy variations are created
 					//TODO: Change the 3 as more enemy pictures are made
-					if(level.whatLevel() < 3){
+					if(level.whatLevel() < 4){
 						Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
 						
 						//Add new level enemy
 						int moreEnemies = enemySum * 2;
+						System.out.println(moreEnemies);
 						for(int i=0; i < moreEnemies; i++){
 							enemy.add(newenemy);
+							System.out.println("Enemy added " + enemy.size());
 						}
 					}
 					
@@ -176,6 +181,7 @@ public class GameScreen extends Screen {
 		//if (enemy != null && character != null && character.hasCollided(enemy.getCoords())) {
 		if (enemyindex != -1 && character != null && character.hasCollided(enemy.get(enemyindex).getCoords())) {
 			//enemy = null;
+			enemy.get(enemyindex).revive();
 			enemyindex = -1;
 			character.getHit();
 			if (character.getHealth() <= 0) {
@@ -186,7 +192,7 @@ public class GameScreen extends Screen {
 
 		//Create new enemy after he's dead
 		if(enemyindex == -1 && character != null)
-		{
+		{	
 			createEnemy();
 		}
 		/*if (enemy == null && timer % 100 == 0) {
@@ -222,7 +228,23 @@ public class GameScreen extends Screen {
 	
 	//TODO: Calculate what happens when the users wins!
 	private void updateBeaten(List<TouchEvent> touchEvents){
-		;
+		int len = touchEvents.size();
+		for (int i = 0; i < len; i++) {
+			TouchEvent event = touchEvents.get(i);
+			if (event.type == TouchEvent.TOUCH_UP) {
+				
+				int contin_x = g.getWidth()/2 - Assets.contin.getWidth()/2;
+				int contin_y = (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight();
+				
+				//Did you click the Continue button?
+				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() 
+						&& event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
+					g.clear(0);
+					game.setScreen(new MainMenuScreen(game));
+					return;
+				}
+			}
+		}
 	}
 
 	private void updatePaused(List<TouchEvent> touchEvents) {
@@ -257,10 +279,13 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.gameover, -15, 100);
 	}
 	
+	/**
+	 * Draw You Win screen
+	 */
 	public void drawBeaten(){
 		g.clear(0);
 		g.drawPixmap(Assets.youWin, 0, 75);
-		g.drawPixmap(Assets.contin, 75, 200);
+		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 
 	public void drawRunning() {
@@ -302,6 +327,7 @@ public class GameScreen extends Screen {
 		//enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);
 		
 		enemyindex = (new Random()).nextInt(enemy.size());
+		System.out.println(enemyindex);
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
 

@@ -28,11 +28,12 @@ public class Assets
 	public static Pixmap pc13;
 	public static Pixmap contin;
 	public static Pixmap youWin;
+	public static Pixmap levelUp;
 	/*
 	 * First index defines which enemy.
 	 * Second index hold the images for that particular enemy
 	 */
-	public static Pixmap badGuys[][] = new Pixmap[2][]; 
+	public static Pixmap badGuys[][] = new Pixmap[3][]; 
 	public static Pixmap mainmenu;
 	public static Pixmap pauseMenu;
 	public static Pixmap pauseButton;

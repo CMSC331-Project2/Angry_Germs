@@ -48,6 +48,7 @@ public class LoadingScreen extends Screen
 		Assets.pauseMenu = g.newPixmap("pauseMenu.png", PixmapFormat.ARGB4444);
 		Assets.pauseButton = g.newPixmap("pauseButton.png", PixmapFormat.ARGB4444);
 		Assets.numbers = g.newPixmap("numbers.png", PixmapFormat.ARGB4444);
+		Assets.levelUp = g.newPixmap("level_upgrade_default.png", PixmapFormat.ARGB4444);
 		
 		//First badguy
 		Assets.badGuys[0] = new Pixmap[7];
@@ -66,6 +67,18 @@ public class LoadingScreen extends Screen
 		Assets.badGuys[1][2] = g.newPixmap("badGuy2-3.png", PixmapFormat.ARGB4444);
 		Assets.badGuys[1][3] = g.newPixmap("badGuy2-4.png", PixmapFormat.ARGB4444);
 		Assets.badGuys[1][4] = g.newPixmap("badGuy2-5.png", PixmapFormat.ARGB4444);
+		
+		//Third badguy
+		Assets.badGuys[2] = new Pixmap[8];
+		Assets.badGuys[2][0] = g.newPixmap("badGuy4_1.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][1] = g.newPixmap("badGuy4_2.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][2] = g.newPixmap("badGuy4_3.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][3] = g.newPixmap("badGuy4_4.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][4] = g.newPixmap("badGuy4_5.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][5] = g.newPixmap("badGuy4_6.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][6] = g.newPixmap("badGuy4_7.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[2][7] = g.newPixmap("badGuy4_8.png", PixmapFormat.ARGB4444);
+
 		Assets.click = game.getAudio().newSound("click.ogg");
 		game.setScreen(new MainMenuScreen(game));
 	}
