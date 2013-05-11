@@ -32,7 +32,7 @@ public class GameScreen extends Screen {
 	private Level level;
 
 	enum GameState {
-		Ready, Running, Paused, GameOver, Beaten
+		LevelUp, Running, Paused, GameOver, Beaten
 	}
 
 	@SuppressLint("UseValueOf")
@@ -70,7 +70,11 @@ public class GameScreen extends Screen {
 		if (state == GameState.Running) {
 			updateRunning(touchEvents, deltaTime);
 		}
-
+		
+		if (state == GameState.LevelUp) {
+			updateLevel(touchEvents);
+		}
+		
 		if (state == GameState.GameOver) {
 			updateGameOver(touchEvents);
 		}
@@ -81,6 +85,56 @@ public class GameScreen extends Screen {
 
 		if (state == GameState.Paused) {
 			updatePaused(touchEvents);
+		}
+	}
+
+	private void updateLevel(List<TouchEvent> touchEvents) {
+		
+		//Display nextlevel Screen
+		g.clear(0);
+		
+		int enemySum = enemy.size();
+		
+		//Create new level enemy
+		//int speed = enemy.get(enemySum-1).getSpeed() +1;
+		int speed = 1;
+		//TODO: Figure out how to make different badGuys go faster than others
+		int health = enemy.get(enemySum-1).getTotalHealth() +1;
+		int points = enemy.get(enemySum-1).getSpeed() +1;
+		//TODO: Add more new enemy types into the assets
+		
+		//Add old enemies from enemy array starting brand new
+		/*for(int i=0; i < enemy.size(); i++){
+			enemy.get(i).revive();
+		}*/
+		
+		//This if statement will stay here until more enemy variations are created
+		//TODO: Change the 4 as more enemy pictures are made
+		if(level.whatLevel() < 4){
+			Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
+			
+			//Add new level enemy
+			int moreEnemies = enemySum * 2;
+			System.out.println(moreEnemies);
+			for(int i=0; i < moreEnemies; i++){
+				enemy.add(newenemy);
+				System.out.println("Enemy added " + enemy.size());
+			}
+		}
+		
+		List<TouchEvent> tEvents = game.getInput().getTouchEvents();
+		game.getInput().getKeyEvents();
+
+		while(true){
+			touchEvents = game.getInput().getTouchEvents();
+			
+			for(int i=0; i < touchEvents.size(); i++){
+				if(touchEvents.get(i).type == TouchEvent.TOUCH_UP){
+					g.clear(0);
+					return;
+				}
+				
+			}
 		}
 	}
 
@@ -110,13 +164,11 @@ public class GameScreen extends Screen {
 		}
 
 		//Move enemy towards the character
-		//if (enemy != null && character != null) {
 		if (enemyindex != -1 && character != null) {
 			enemy.get(enemyindex).update(character.getCoords());
 		}
 
 		//The enemy has been hit
-		//if (enemy != null && character != null && character.getFlyingState() && enemy.hasCollided(character.getWeapon().getOrigin())) {
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
 			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
@@ -134,45 +186,13 @@ public class GameScreen extends Screen {
 				level.addScore(enemy.get(enemyindex).getScore());
 				enemyindex = -1;
 				
-				//You've beaten the game
-				if(level.isEnd())
-				{
+				if(level.isEnd()){
+					//You've beaten the game
 					state = GameState.Beaten;
-				}//You've gone to the next level
-				else if(level.isChanged()){
+				}else if(level.isChanged()){
 					
-					//Display nextlevel Screen
-					//game.setScreen(new NextLevelScreen(game, level, this));
-					
-					int enemySum = enemy.size();
-					
-					//Create new level enemy
-					//int speed = enemy.get(enemySum-1).getSpeed() +1;
-					int speed = 1;
-					//TODO: Figure out how to make different badGuys go faster than others
-					int health = enemy.get(enemySum-1).getTotalHealth() +1;
-					int points = enemy.get(enemySum-1).getSpeed() +1;
-					//TODO: Add more new enemy types into the assets
-					
-					//Add old enemies from enemy array starting brand new
-					/*for(int i=0; i < enemy.size(); i++){
-						enemy.get(i).revive();
-					}*/
-					
-					//This if statement will stay here until more enemy variations are created
-					//TODO: Change the 3 as more enemy pictures are made
-					if(level.whatLevel() < 4){
-						Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
-						
-						//Add new level enemy
-						int moreEnemies = enemySum * 2;
-						System.out.println(moreEnemies);
-						for(int i=0; i < moreEnemies; i++){
-							enemy.add(newenemy);
-							System.out.println("Enemy added " + enemy.size());
-						}
-					}
-					
+					//You've gone to the next level
+					state = GameState.LevelUp;					
 				}
 			}
 		}
@@ -288,6 +308,12 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 
+	public void drawLevel(){
+		g.clear(0);
+		g.drawPixmap(Assets.levelUp, 0, 0);
+		
+	}
+	
 	public void drawRunning() {
 		drawBackground();
 		drawPauseButton();
@@ -344,7 +370,11 @@ public class GameScreen extends Screen {
 		if (state == GameState.GameOver) {
 			drawGameOver();
 		}
-
+		
+		if (state == GameState.LevelUp) {
+			drawLevel();
+		}
+		
 		if(state == GameState.Beaten){
 			drawBeaten();
 		}

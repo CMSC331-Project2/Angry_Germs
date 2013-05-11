@@ -12,26 +12,24 @@ public class NextLevelScreen extends Screen {
 
 	private Graphics g;
 	private GameScreen returnScreen;
-	private ScreenState state;
 	private Level theLevel;
 	
-	enum ScreenState {
-		StandBy, Continue
-	}
 	
 	public NextLevelScreen(Game game, Level level, GameScreen rtnScrn){
 		super(game);
+		System.out.println("Creating NextLevelScreen");
 		g = game.getGraphics();
 		returnScreen = rtnScrn;
-		state = ScreenState.StandBy;
 		theLevel = level;
 		drawInitialScreen();
+		System.out.println("Finished Creating NextLevelScreen");
+
 	}
 
 	private void drawInitialScreen() {
 		
 		//TODO: Display "Level (level.whatLevel()) \n COMPLETE \n Total Score: returnScreen.getScore()"
-		
+		g.drawPixmap(Assets.levelUp, 0, 0);
 		
 	}
 
@@ -40,9 +38,17 @@ public class NextLevelScreen extends Screen {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 
-		if (state == ScreenState.Continue) {
-			updateContinue(touchEvents);
-		}		
+		while(true){
+			touchEvents = game.getInput().getTouchEvents();
+			
+			for(int i=0; i < touchEvents.size(); i++){
+				if(touchEvents.get(i).type == TouchEvent.TOUCH_UP){
+					g.clear(0);
+					game.setScreen(returnScreen);
+				}
+				
+			}
+		}
 	}
 
 	private void updateContinue(List<TouchEvent> touchEvents) {
@@ -53,7 +59,9 @@ public class NextLevelScreen extends Screen {
 	@Override
 	public void present(float deltaTime) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Printing NextLevelScreen");
+		drawInitialScreen();
+
 	}
 
 	@Override
