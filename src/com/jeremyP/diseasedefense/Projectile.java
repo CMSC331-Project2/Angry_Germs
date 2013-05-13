@@ -3,6 +3,7 @@ package com.jeremyP.diseasedefense;
 import android.graphics.Color;
 
 import com.jeremyP.diseasedefense.framework.Graphics;
+import com.jeremyP.diseasedefense.framework.Graphics.PixmapFormat;
 import com.jeremyP.diseasedefense.tools.Vector2i;
 
 public class Projectile 
@@ -25,7 +26,8 @@ public class Projectile
 	public void drawProjectile(Graphics g)
 	{
 		//g.drawRect(origin.getX(), origin.getY(), 5, 10, Color.WHITE);
-		g.drawPixmap(Assets.projectile, origin.getX(), origin.getY());
+		
+		g.drawPixmap(g.newPixmap("projectile.png", PixmapFormat.RGB565), origin.getX(), origin.getY());
 	}
 	
 	public void setOrigin(int x, int y)
