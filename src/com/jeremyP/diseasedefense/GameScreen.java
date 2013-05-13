@@ -332,12 +332,41 @@ public class GameScreen extends Screen {
 		yCoord = character.getCoords().getY();
 
 		while (xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY()) {
-			xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
+			//xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
 			yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
+			
+			/*
+			xCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) + (g.getWidth()/5)  ) + 1));
+			if (xCoord > 0){
+				xCoord = xCoord + g.getWidth();
+			}
+			yCoord = min + (int) (Math.random() * ((  (g.getHeight()/5) + (g.getHeight()/5) ) + 1));
+			if (yCoord > 0){
+				yCoord = yCoord + g.getHeight();
+			}
+			*/
+			
+			xCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) - min  ) + 1));
+			
+			xCoord = xCoord - (g.getWidth()/10);
+			
+			if (xCoord > 0){
+				xCoord = xCoord + g.getWidth();
+			}
+			
+			/*
+			yCoord = min + (int) (Math.random() * ((  (g.getHeight()/5) + (g.getHeight()/5) ) + 1));
+			if (yCoord > 0){
+				yCoord = yCoord + g.getHeight();
+			}
+			*/
+			
+			//yCoord = 0;
+			
 		}
 
-		//enemy.get(enemyindex).setCoords(xCoord, yCoord);
-		enemy.get(enemyindex).setCoords(0, 0);
+		enemy.get(enemyindex).setCoords(xCoord, yCoord);
+		//enemy.get(enemyindex).setCoords(0, 0);
 	}
 
 	@Override
