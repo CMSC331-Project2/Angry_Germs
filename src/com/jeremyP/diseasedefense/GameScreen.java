@@ -403,7 +403,7 @@ public class GameScreen extends Screen {
 		}
 	}
 
-	public void createEnemy() {
+	private void createEnemy() {
 		//enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);
 		
 		enemyindex = (new Random()).nextInt(enemy.size());
@@ -484,7 +484,7 @@ public class GameScreen extends Screen {
 		}
 	}
 
-	public void drawGameOver() {
+	private void drawGameOver() {
 		g.clear(0);
 		g.drawPixmap(Assets.gameover, g.getWidth()/2 - Assets.gameover.getWidth()/2, 60);
 		
@@ -497,20 +497,20 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 	
-	public void drawWin(){
+	private void drawWin(){
 		g.clear(0);
-		g.drawPixmap(Assets.youWin, g.getWidth()/2 - Assets.youWin.getWidth()/2, 60);
+		g.drawPixmap(Assets.youWin, g.getWidth()/2 - Assets.youWin.getWidth()/2, 30);
 
 		//Display scores
 		g.drawPixmap(Assets.scores, 0, Assets.youWin.getHeight() + 60);
-		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 15 + 60);
-		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 50 + 60);
+		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 15 + 30);
+		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 50 + 30);
 		
 		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 
-	public void drawLevel(){
+	private void drawLevel(){
 		g.clear(0);
 		g.drawPixmap(Assets.levelUp, g.getWidth()/2 - Assets.levelUp.getWidth()/2, 30);
 		drawText(g, "" + (level.whatLevel()-1), Assets.levelUp.getWidth() - 15, (int) (Assets.levelUp.getHeight()*.25 + 30));
@@ -524,7 +524,7 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.05)) - Assets.contin.getHeight());
 	}
 	
-	public void drawRunning() {
+	private void drawRunning() {
 		drawBackground();
 		drawPauseButton();
 
@@ -573,7 +573,7 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.levelBackground[level.whatLevel()-1], 0, 0);
 	}
 
-	public void drawText(Graphics g, String line, int x, int y) {
+	private void drawText(Graphics g, String line, int x, int y) {
 		int len = line.length();
 		for (int i = 0; i < len; i++) {
 			char character = line.charAt(i);
