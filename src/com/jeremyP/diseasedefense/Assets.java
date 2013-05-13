@@ -41,6 +41,7 @@ public class Assets
 	public static Pixmap mainmenu;
 	public static Pixmap pauseMenu;
 	public static Pixmap pauseButton;
+	public static Pixmap projectile;
 	public static Pixmap title;
 	public static Pixmap gameover;
 	public static Sound click;
