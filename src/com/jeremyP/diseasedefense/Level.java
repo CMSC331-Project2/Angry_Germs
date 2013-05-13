@@ -1,60 +1,36 @@
 package com.jeremyP.diseasedefense;
 
+import java.sql.Time;
+import java.util.Date;
+import java.util.Timer;
+
 public class Level {
 
-	//Scores needed to get to next level
-	//private static int LEVEL_ONE 	= 20;
-	//private static int LEVEL_TWO 	= 50;
-	//private static int LEVEL_THREE 	= 100;
-	//private static int LEVEL_FOUR 	= 325;
-	//private static int LEVEL_FIVE 	= 700;
-	//private static int LEVEL_SIX 	= 1000;
-	//private final static int LEVEL_X[] = {2, 50, 100, 325, 700, 1000};
-	private final static int LEVEL_X[] = {2, 4, 6, 8, 10};
-
 	private int currentLevel;	/* Holds the current playing level */
-	private int score;			/* Holds the current score */
-	private boolean changed;	/* Tells whether the level has changed */
+	
+	//All the level information
+	private long startTime;
+	private static final int LEVEL_TIME = 60;
+	private static final int MAX_LEVEL = 6;
+	private int cumScore;
+	private int levelScore;
 	
 	/**
 	 * Plain constructor that starts you off with score of 0 at LEVEL one
 	 */
 	public Level(){
 		currentLevel = 1;
-		score = 0;
-		changed = false;
-	}
-	
-	/**
-	 * Returns whether the last level has been beaten or not
-	 * @return whether the game has been beaten
-	 */
-	public boolean isEnd(){
-		return currentLevel > LEVEL_X.length;
-	}
-	/**
-	 * Tells if the level has changed
-	 * NOTE: When this method is called and it returns true, this will return false until
-	 * 		the level changes again.
-	 * @return
-	 */
-	public boolean isChanged(){
-		
-		if(changed){
-			changed = false;
-			score = 0;
-			return true;
-		}else {
-			return false;
-		}
+		cumScore = 0;
+		levelScore = 0;
+		startTime = new Date().getTime();
 	}
 	
 	/**
 	 * Calls addScore(1) - adds one point
 	 * @return if 1, your just went to the next level.
 	 */
-	public int addScore(){
-		return this.addScore(1);
+	public void addScore(){
+		this.addScore(1);
 	}
 	
 	/**
@@ -62,26 +38,24 @@ public class Level {
 	 * @param points - the amount of points being added
 	 * @return if 1, your just went to the next level.
 	 */
-	public int addScore(int points){
-		score += points;
-		
-		//Check to see if got the next level
-		if(score > this.pointsNeeded()){
-			currentLevel++;
-			changed = true;
-			return 1;
-		}else{
-			return 0;
-		}
-		
+	public void addScore(int points){
+		levelScore += points;		
 	}
 	
 	/**
-	 * Gives the scores
-	 * @return score
+	 * Gives the levelScores
+	 * @return levelScore
 	 */
-	public int getScore(){
-		return score;
+	public int getLevelScore(){
+		return levelScore;
+	}
+	
+	/**
+	 * Gives the cumScores
+	 * @return cumScore
+	 */
+	public int getCumScore(){
+		return cumScore;
 	}
 	
 	/**
@@ -92,31 +66,53 @@ public class Level {
 		return currentLevel;
 	}
 	
-	/**
-	 * Get the amount of points needed to get the next level
-	 * @return points needed
-	 */
-	private int pointsNeeded(){
-		
-		/*if(currentLevel == LEVEL_ONE){
-			return LEVEL_ONE;
-		}else if(currentLevel == LEVEL_TWO){
-			return LEVEL_TWO;
-		}else if(currentLevel == LEVEL_THREE){
-			return LEVEL_THREE;
-		}else if(currentLevel == LEVEL_FOUR){
-			return LEVEL_ONE;
-		}else if(currentLevel == LEVEL_FIVE){
-			return LEVEL_ONE;
-		}else if(currentLevel == LEVEL_SIX){
-			return LEVEL_ONE;
-		}else{
-			
-			//You should really never get to here
-			return 0;
-		}*/
-		
-		return LEVEL_X[currentLevel-1];
+	public boolean isLevelEnd(){
+		return isLevelEnd(true);
 	}
+	
+	/**
+	 * Returns whether or not the level is complete
+	 * @param clearScore - true if you want the level score to be reset
+	 * NOTE: This is a method called resetScore() that resets the level score
+	 * @return true if level done
+	 */
+	public boolean isLevelEnd(boolean clearScore){
+		
+		if(timeLeft() < 0){
+			currentLevel++;
+			cumScore += levelScore;
+			if(clearScore)
+				levelScore = 0;
+			
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public long getTimePassed(){
+		
+		long nowTime = new Date().getTime();
+		System.out.println("nowTime: " + nowTime);
+		System.out.println("currentTime: " + startTime);
 
+		return (nowTime - startTime) / 1000;
+	}	
+	
+	public void resetScore(){
+		levelScore = 0;
+		startTime = new Date().getTime();
+	}
+	
+	/**
+	 * Returns whether the last level has been beaten or not
+	 * @return whether the game has been beaten
+	 */
+	public boolean isEnd(){
+		return currentLevel > MAX_LEVEL;
+	}
+	
+	public long timeLeft(){
+		return LEVEL_TIME - getTimePassed();
+	}
 }

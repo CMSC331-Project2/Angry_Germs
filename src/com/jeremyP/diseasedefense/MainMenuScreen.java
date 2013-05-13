@@ -31,43 +31,46 @@ public class MainMenuScreen extends Screen
 			{
 				if (inBounds(event, 0, g.getHeight() - 64, 64, 64))
 				{
-					Settings.soundEnabled = !Settings.soundEnabled;
-					if(Settings.soundEnabled)
-					{
+					Assets.click.play(1);
+					/*Settings.soundEnabled = !Settings.soundEnabled;
+					if(Settings.soundEnabled){
 						Assets.click.play(1);
-					}
+					}*/
 					return;
 				}
 				
 				if (inBounds(event, 64, 220, 192, 42))
 				{
+					Assets.click.play(1);
 					game.setScreen(new GameScreen(game));
-					Settings.soundEnabled = !Settings.soundEnabled;
+					/*Settings.soundEnabled = !Settings.soundEnabled;
 					if(Settings.soundEnabled)
 					{
 						Assets.click.play(1);
-					}
+					}*/
 					return;
 				}
 				
 				if (inBounds(event, 64, 220 + 42, 192, 42))
 				{
+					Assets.click.play(1);
 					game.setScreen(new HelpScreen(game));
-					Settings.soundEnabled = !Settings.soundEnabled;
+					/*Settings.soundEnabled = !Settings.soundEnabled;
 					if(Settings.soundEnabled)
 					{
 						Assets.click.play(1);
-					}
+					}*/
 					return;
 				}
 				
 				if (inBounds(event, 64, 220 + 84, 192, 42))
 				{
-					Settings.soundEnabled = !Settings.soundEnabled;
+					Assets.click.play(1);
+					/*Settings.soundEnabled = !Settings.soundEnabled;
 					if(Settings.soundEnabled)
 					{
 						Assets.click.play(1);
-					}
+					}*/
 					return;
 				}
 			}

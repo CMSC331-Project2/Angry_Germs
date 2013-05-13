@@ -11,6 +11,7 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.jeremyP.diseasedefense.Assets;
 import com.jeremyP.diseasedefense.framework.Audio;
 import com.jeremyP.diseasedefense.framework.FileIO;
 import com.jeremyP.diseasedefense.framework.Game;
@@ -28,6 +29,7 @@ public abstract class AndroidGame extends Activity implements Game
 		Screen screen;
 		WakeLock wakeLock;
 		Context context = this;
+		int levelmusicindex;
 		
 		public void onCreate(Bundle savedInstanceState)
 		{
@@ -60,6 +62,12 @@ public abstract class AndroidGame extends Activity implements Game
 		public void onResume()
 		{
 			super.onResume();
+			
+			//if(Assets.levelMusic[levelmusicindex].isStopped())
+				//Assets.levelMusic[levelmusicindex].play();
+			
+			//audio.
+			
 			wakeLock.acquire();
 			screen.resume();
 			renderView.resume();
@@ -69,6 +77,15 @@ public abstract class AndroidGame extends Activity implements Game
 		public void onPause()
 		{
 			super.onPause();
+			
+			for(int i=0; i < Assets.levelMusic.length; i++){
+				if(Assets.levelMusic[i].isPlaying()){
+					Assets.levelMusic[i].pause();
+					levelmusicindex = i;
+					break;
+				}
+			}
+				
 			wakeLock.release();
 			renderView.pause();
 			screen.pause();
