@@ -1,6 +1,7 @@
 package com.jeremyP.diseasedefense;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -35,9 +36,11 @@ public class GameScreen extends Screen {
 	private Level level;
 	private Music runningMusic;
 	private int humanPhase;
+	private long timePaused;
+	private boolean wait; /* Used so pause to screen so the player has time to choose an option */
 
 	enum GameState {
-		LevelUp, Upgrade, Running, Paused, GameOver, Beaten, HumanPhase
+		LevelUp, Running, Paused, GameOver, Beaten, HumanPhase
 	}
 
 	@SuppressLint("UseValueOf")
@@ -57,6 +60,7 @@ public class GameScreen extends Screen {
 		min = 0;
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
+		wait = true;
 		//enemiesKilled = 0;
 	}
 
@@ -81,9 +85,6 @@ public class GameScreen extends Screen {
 		}else if (state == GameState.LevelUp) {
 			System.out.println("LevelUp");
 			updateLevel(touchEvents);
-		}else if(state == GameState.Upgrade){
-			System.out.println("Upgrade");
-			updateUpgrade(touchEvents);
 		}else if (state == GameState.GameOver) {
 			System.out.println("Gameover");
 			updateGameOver(touchEvents);
@@ -106,6 +107,7 @@ public class GameScreen extends Screen {
 			if(humanPhase == 1){
 				Thread.sleep(700);
 				state = GameState.HumanPhase;
+				Assets.humanphase.play(1);
 				humanPhase++;
 
 			//Finished update?
@@ -131,13 +133,8 @@ public class GameScreen extends Screen {
 			}
 
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	private void updateUpgrade(List<TouchEvent> touchEvents) {
-		
 	}
 
 	private void updateLevel(List<TouchEvent> touchEvents) {
@@ -146,19 +143,28 @@ public class GameScreen extends Screen {
 		
 		//Change the music for new level
 		//TODO: Make the music fade out as the level changes
-		if(runningMusic.isPlaying()){
+		if(runningMusic.isPlaying() && level.isEnd()){
+			runningMusic.stop();
+		}else if(runningMusic.isPlaying() && !level.isEnd()){
 			runningMusic.stop();
 			runningMusic = Assets.levelMusic[level.whatLevel()-1];
+			runningMusic.setLooping(true);
 		}
 
+		if(wait){
+			wait = false;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		for (int i = 0; i < touchEvents.size(); i++) {
 			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
 				int contin_x = g.getWidth()/2 - Assets.contin.getWidth()/2;
 				int contin_y = (int) (g.getHeight() - (g.getHeight()*.05)) - Assets.contin.getHeight();
-				
-				int upgrade_x = g.getWidth()/2 - Assets.upgrade.getWidth()/2;
-				int upgrade_y = (int) (g.getHeight() - (g.getHeight()*.22)) - Assets.upgrade.getHeight();
 				
 				//Did you click the Continue button?
 				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() && event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
@@ -166,17 +172,6 @@ public class GameScreen extends Screen {
 					level.resetScore();
 					state = GameState.HumanPhase;
 					return;
-				}
-				
-				//Did you click the Upgrade button?
-				if(event.x > upgrade_x && event.x < upgrade_x + Assets.upgrade.getWidth() && event.y > upgrade_y && event.y < upgrade_y + Assets.upgrade.getHeight()){
-					Assets.click.play(1);
-					if(level.isEnd()){
-						state = GameState.Beaten;
-					}else{
-						level.resetScore();
-						state = GameState.Running;
-					}
 				}
 			}
 		}
@@ -188,6 +183,9 @@ public class GameScreen extends Screen {
 		//NOTE: This usually will only be called when the level is just beginning
 		if(!runningMusic.isPlaying())
 			runningMusic.play();
+		
+		wait = true;
+		//runningMusic.setVolume(1.0f);
 		
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
@@ -207,6 +205,7 @@ public class GameScreen extends Screen {
 				if (event.x < 64 && event.y < 64) {
 					//if (Settings.soundEnabled)
 						Assets.click.play(1);
+					timePaused = new Date().getTime();
 					state = GameState.Paused;
 					return;
 				}
@@ -234,37 +233,7 @@ public class GameScreen extends Screen {
 				character.stopProjectile();
 				level.addScore(enemy.get(enemyindex).getScore());
 				enemyindex = -1;
-
-				//Have you finished the level?
-				if(level.isLevelEnd(false)){
-					
-					state = GameState.LevelUp;
-					
-					Assets.level_up.play(1);
-					
-					int enemySum = enemy.size();
-					
-					//Create new level enemy
-					//TODO: Add speed variation to stronger/different enemies
-					int speed = 1;
-					int health = enemy.get(enemySum-1).getTotalHealth() + 1;
-					int points = enemy.get(enemySum-1).getSpeed() + 1;
-					
-					//This if statement will stay here until more enemy variations are created
-					//TODO: Change the 4 as more enemy pictures are made
-					if(level.whatLevel() < 5){
-						Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
-						
-						//Add new level enemy
-						int moreEnemies = enemySum * 2;
-						System.out.println(moreEnemies);
-						for(int i=0; i < moreEnemies; i++){
-							enemy.add(newenemy);
-							System.out.println("Enemy added " + enemy.size());
-						}
-					}
-					
-				}
+			
 			}else{
 				Assets.hit.play(1);
 			}
@@ -278,6 +247,7 @@ public class GameScreen extends Screen {
 			Assets.hit.play(1);
 			if (character.getHealth() <= 0) {
 				character = null;
+				Assets.game_over.play(1);
 				state = GameState.GameOver;
 			}
 		}
@@ -286,6 +256,35 @@ public class GameScreen extends Screen {
 		if(enemyindex == -1 && character != null){	
 			createEnemy();
 		}
+		
+		//Have time ran out?
+		if(level.isLevelEnd(false)){
+			
+			state = GameState.LevelUp;
+			
+			Assets.level_up.play(1);
+			
+			int enemySum = enemy.size();
+			
+			//Create new level enemy
+			//TODO: Add speed variation to stronger/different enemies
+			int speed = 1;
+			int health = enemy.get(enemySum-1).getTotalHealth() + 1;
+			int points = enemy.get(enemySum-1).getSpeed() + 1;
+			
+			//This if statement will stay here until more enemy variations are created
+			if(level.whatLevel() < 6){
+				Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
+				
+				//Add new level enemy
+				int moreEnemies = enemySum * 2;
+				System.out.println(moreEnemies);
+				for(int i=0; i < moreEnemies; i++){
+					enemy.add(newenemy);
+					System.out.println("Enemy added " + enemy.size());
+				}
+			}
+		}
 	}
 
 	private void updateGameOver(List<TouchEvent> touchEvents) {
@@ -293,6 +292,19 @@ public class GameScreen extends Screen {
 		//Stop the music
 		if(runningMusic.isPlaying())
 			runningMusic.stop();
+		
+		if(wait){
+			wait = false;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		Assets.gameOverMusic.play();
+		Assets.gameOverMusic.setVolume(1.0f);
+		Assets.gameOverMusic.setLooping(true);
 		
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
@@ -305,6 +317,7 @@ public class GameScreen extends Screen {
 				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() && event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
 					g.clear(0);
 					Assets.click.play(1);
+					Assets.gameOverMusic.stop();
 					game.setScreen(new MainMenuScreen(game));
 					return;
 				}
@@ -317,6 +330,15 @@ public class GameScreen extends Screen {
 		//Stop the music
 		if(runningMusic.isPlaying())
 			runningMusic.stop();
+		
+		if(wait){
+			wait = false;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
@@ -340,8 +362,9 @@ public class GameScreen extends Screen {
 	private void updatePaused(List<TouchEvent> touchEvents) {
 		
 		//Stop the music
-		if(runningMusic.isPlaying())
-			runningMusic.pause();
+		if(runningMusic.isPlaying()){
+			runningMusic.setVolume(0.5f);
+		}
 		
 		int len = touchEvents.size();
 		for (int i = 0; i < len; i++) {
@@ -350,16 +373,24 @@ public class GameScreen extends Screen {
 				
 				if (event.x > 80 && event.x <= 240) {
 					
+					//Did you press Continue?
 					if (event.y > 100 && event.y <= 148) {
 						//if (Settings.soundEnabled)
 							Assets.click.play(1);
+						runningMusic.setVolume(1.0f);
+						long endtimePaused = new Date().getTime();
+						System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
+						level.addPausedTime(timePaused - endtimePaused);
+						timePaused = 0;
 						state = GameState.Running;
 						return;
 					}
 					
+					//Did you press Exit?
 					if (event.y > 148 && event.y < 196) {
 						//if (Settings.soundEnabled)
 							Assets.click.play(1);
+						runningMusic.stop();
 						g.clear(0);
 						game.setScreen(new MainMenuScreen(game));
 						return;
@@ -378,11 +409,33 @@ public class GameScreen extends Screen {
 		yCoord = character.getCoords().getY();
 
 		while (xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY()) {
-			xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
-			yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
+			//xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
+			//yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
+			
+			int rando = (int) (Math.random() * ((10 - 0) + 1 ));
+			rando = rando - 5;
+			
+			if(rando > 0){
+				xCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) - min  ) + 1));
+				xCoord = xCoord - (g.getWidth()/10);
+				if (xCoord > 0){
+					xCoord = xCoord + g.getWidth();
+				}
+				yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
+			}
+			else{
+				yCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) - min  ) + 1));		
+				yCoord = yCoord - (g.getWidth()/10);
+				if (yCoord > 0){
+					yCoord = yCoord + g.getHeight();
+				}
+				xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
+			}
+			
 		}
 
 		enemy.get(enemyindex).setCoords(xCoord, yCoord);
+		//enemy.get(enemyindex).setCoords(0, 0);
 	}
 
 	@Override
@@ -394,9 +447,6 @@ public class GameScreen extends Screen {
 		}else if (state == GameState.LevelUp) {
 			System.out.println("LevelUp");
 			drawLevel();
-		}else if(state == GameState.Upgrade){
-			System.out.println("Upgrade");
-			drawUpgrade();
 		}else if(state == GameState.Beaten){
 			System.out.println("Beaten");
 			drawBeaten();
@@ -431,31 +481,44 @@ public class GameScreen extends Screen {
 		}
 	}
 
-	private void drawUpgrade() {
-		
-	}
-
 	public void drawGameOver() {
 		g.clear(0);
-		g.drawPixmap(Assets.gameover, -15, 100);
+		g.drawPixmap(Assets.gameover, g.getWidth()/2 - Assets.gameover.getWidth()/2, 60);
+		
+		//Display scores
+		g.drawPixmap(Assets.scores, 0, Assets.gameover.getHeight() + 5 + 60);
+		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 15 + 60);
+		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 50 + 60);
+		
+		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 	
 	public void drawBeaten(){
 		g.clear(0);
-		g.drawPixmap(Assets.youWin, 0, 75);
+		g.drawPixmap(Assets.youWin, g.getWidth()/2 - Assets.youWin.getWidth()/2, 60);
+
+		//Display scores
+		g.drawPixmap(Assets.scores, 0, Assets.youWin.getHeight() + 5 + 60);
+		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() - 5 + 60);
+		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 35 + 60);
+		
+		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 
 	public void drawLevel(){
 		g.clear(0);
-		g.drawPixmap(Assets.levelUp, 0, 0);
+		g.drawPixmap(Assets.levelUp, g.getWidth()/2 - Assets.levelUp.getWidth()/2, 30);
+		drawText(g, "" + (level.whatLevel()-1), Assets.levelUp.getWidth() - 15, (int) (Assets.levelUp.getHeight()*.25 + 30));
+
+		//Display scores
+		g.drawPixmap(Assets.scores, 0, Assets.levelUp.getHeight() + 5 + 30);
+		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 50);
+		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 35 + 50);
 		
-		drawText(g, "" + (level.whatLevel()-1), 215, 60);
-		drawText(g, "" + (level.getLevelScore()), 250, 190);
-		drawText(g, "" + (level.getCumScore()), 265, 225);
+		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.05)) - Assets.contin.getHeight());
-		g.drawPixmap(Assets.upgrade, g.getWidth()/2 - Assets.upgrade.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.22)) - Assets.upgrade.getHeight());
 	}
 	
 	public void drawRunning() {
@@ -488,7 +551,6 @@ public class GameScreen extends Screen {
 		xEnemyOffset = 0;
 
 		drawText(g, Integer.toString((int)level.timeLeft()), g.getWidth() - 60, g.getHeight() - 35);
-
 	}
 	
 	private void drawPaused() {

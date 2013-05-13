@@ -50,12 +50,12 @@ public class LoadingScreen extends Screen
 		Assets.gameover = g.newPixmap("gameover.png", PixmapFormat.ARGB4444);
 		Assets.youWin = g.newPixmap("You_win.png", PixmapFormat.ARGB4444);
 		Assets.contin = g.newPixmap("continue_button.png", PixmapFormat.ARGB4444);
-		Assets.upgrade = g.newPixmap("upgrade_button.png", PixmapFormat.ARGB4444);
 		Assets.mainmenu = g.newPixmap("menubuttons.png", PixmapFormat.ARGB4444);
 		Assets.pauseMenu = g.newPixmap("pauseMenu.png", PixmapFormat.ARGB4444);
 		Assets.pauseButton = g.newPixmap("pauseButton.png", PixmapFormat.ARGB4444);
 		Assets.numbers = g.newPixmap("numbers.png", PixmapFormat.ARGB4444);
 		Assets.levelUp = g.newPixmap("level_upgrade_default2.png", PixmapFormat.ARGB4444);
+		Assets.scores = g.newPixmap("scoreDisplay.png", PixmapFormat.ARGB4444);
 		
 		//Human level transition animation phases
 		Assets.human = new Pixmap[6];
@@ -67,7 +67,7 @@ public class LoadingScreen extends Screen
 		Assets.human[5] = g.newPixmap("human_62.png", PixmapFormat.RGB565);
 		
 		
-		Assets.badGuys = new Pixmap[4][];
+		Assets.badGuys = new Pixmap[5][];
 		
 		//First badguy
 		Assets.badGuys[0] = new Pixmap[7];
@@ -105,6 +105,14 @@ public class LoadingScreen extends Screen
 		Assets.badGuys[3][5] = g.newPixmap("badGuy4_6.png", PixmapFormat.ARGB4444);
 		Assets.badGuys[3][6] = g.newPixmap("badGuy4_7.png", PixmapFormat.ARGB4444);
 		Assets.badGuys[3][7] = g.newPixmap("badGuy4_8.png", PixmapFormat.ARGB4444);
+		
+		//Third badguy
+		Assets.badGuys[4] = new Pixmap[5];
+		Assets.badGuys[4][0] = g.newPixmap("badGuy5_1.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[4][1] = g.newPixmap("badGuy5_2.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[4][2] = g.newPixmap("badGuy5_3.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[4][3] = g.newPixmap("badGuy5_4.png", PixmapFormat.ARGB4444);
+		Assets.badGuys[4][4] = g.newPixmap("badGuy5_5.png", PixmapFormat.ARGB4444);
 
 		//Create sounds
 		Assets.click = game.getAudio().newSound("click_button.ogg");

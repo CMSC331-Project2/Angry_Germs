@@ -10,8 +10,8 @@ public class Level {
 	
 	//All the level information
 	private long startTime;
-	private static final int LEVEL_TIME = 60;
-	private static final int MAX_LEVEL = 6;
+	private static final int LEVEL_TIME = 10;
+	private static final int MAX_LEVEL = 5;
 	private int cumScore;
 	private int levelScore;
 	
@@ -39,7 +39,8 @@ public class Level {
 	 * @return if 1, your just went to the next level.
 	 */
 	public void addScore(int points){
-		levelScore += points;		
+		levelScore += points;
+		cumScore += points;
 	}
 	
 	/**
@@ -71,6 +72,16 @@ public class Level {
 	}
 	
 	/**
+	 * If the pause was paused, the timer in this class will still count.
+	 * This allows you to add time to start time, so technically, you won't "lose"
+	 * any time
+	 * @param pausedTime -  amount of time paused
+	 */
+	public void addPausedTime(long pausedTime){
+		startTime += pausedTime;
+	}
+	
+	/**
 	 * Returns whether or not the level is complete
 	 * @param clearScore - true if you want the level score to be reset
 	 * NOTE: This is a method called resetScore() that resets the level score
@@ -78,9 +89,8 @@ public class Level {
 	 */
 	public boolean isLevelEnd(boolean clearScore){
 		
-		if(timeLeft() < 0){
+		if(timeLeft() < 1){
 			currentLevel++;
-			cumScore += levelScore;
 			if(clearScore)
 				levelScore = 0;
 			
@@ -90,6 +100,10 @@ public class Level {
 		}
 	}
 	
+	/**
+	 * Return the amount of time that has passed in the current level
+	 * @return
+	 */
 	public long getTimePassed(){
 		
 		long nowTime = new Date().getTime();
@@ -113,6 +127,6 @@ public class Level {
 	}
 	
 	public long timeLeft(){
-		return LEVEL_TIME - getTimePassed();
+		return LEVEL_TIME - getTimePassed() - 1;
 	}
 }

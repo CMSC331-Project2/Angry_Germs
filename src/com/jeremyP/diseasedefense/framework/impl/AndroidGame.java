@@ -85,6 +85,10 @@ public abstract class AndroidGame extends Activity implements Game
 					break;
 				}
 			}
+			
+			if(Assets.gameOverMusic.isPlaying()){
+				Assets.gameOverMusic.pause();
+			}
 				
 			wakeLock.release();
 			renderView.pause();

@@ -28,9 +28,9 @@ public class Assets
 	public static Pixmap pc12;
 	public static Pixmap pc13;
 	public static Pixmap contin;
-	public static Pixmap upgrade;
 	public static Pixmap youWin;
 	public static Pixmap levelUp;
+	public static Pixmap scores;
 	public static Pixmap human[];
 	
 	/*

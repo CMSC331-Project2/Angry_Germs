@@ -39,7 +39,7 @@ public class MainMenuScreen extends Screen
 					return;
 				}
 				
-				if (inBounds(event, 64, 220, 192, 42))
+				if (inBounds(event, 64, 250, 192, 42))
 				{
 					Assets.click.play(1);
 					game.setScreen(new GameScreen(game));
@@ -94,9 +94,10 @@ public class MainMenuScreen extends Screen
 	{
 		Graphics g = game.getGraphics();
 		
-		g.drawPixmap(Assets.title, 32, 20);
-		g.drawPixmap(Assets.mainmenu, 64, 220);
-	}
+		g.drawPixmap(Assets.title, 32, 15);
+		//g.drawPixmap(Assets.mainmenu, 64, 220);
+		g.drawPixmap(Assets.mainmenu, 36, 250);
+	}  
 
 	@Override
 	public void pause() {
