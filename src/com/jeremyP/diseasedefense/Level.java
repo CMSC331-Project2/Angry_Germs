@@ -10,7 +10,7 @@ public class Level {
 	
 	//All the level information
 	private long startTime;
-	private static final int LEVEL_TIME = 10;
+	private static final int LEVEL_TIME = 5;
 	private static final int MAX_LEVEL = 5;
 	private int cumScore;
 	private int levelScore;
@@ -89,7 +89,7 @@ public class Level {
 	 */
 	public boolean isLevelEnd(boolean clearScore){
 		
-		if(timeLeft() < 1){
+		if(timeLeft() < 0){
 			currentLevel++;
 			if(clearScore)
 				levelScore = 0;
@@ -127,6 +127,6 @@ public class Level {
 	}
 	
 	public long timeLeft(){
-		return LEVEL_TIME - getTimePassed() - 1;
+		return LEVEL_TIME - getTimePassed();
 	}
 }

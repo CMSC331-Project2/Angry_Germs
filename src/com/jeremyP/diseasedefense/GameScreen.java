@@ -40,7 +40,7 @@ public class GameScreen extends Screen {
 	private boolean wait; /* Used so pause to screen so the player has time to choose an option */
 
 	enum GameState {
-		LevelUp, Running, Paused, GameOver, Beaten, HumanPhase
+		LevelUp, Running, Paused, GameOver, Win, HumanPhase
 	}
 
 	@SuppressLint("UseValueOf")
@@ -68,7 +68,7 @@ public class GameScreen extends Screen {
 	 * This method is the main logical loop of the game. It determines which state the game is
 	 * in by checking which enum state is equal to. GameState.Running is where the main action takes
 	 * place. GameState.GameOver is when the player loses all of their health and is sent to a game over
-	 * screen. GameState.Beaten is the screen shown when the player wins the game. GameState.Paused is
+	 * screen. GameState.Win is the screen shown when the player wins the game. GameState.Paused is
 	 * when the player pauses the game.
 	 * 
 	 * No drawing happens within any of the update loops.
@@ -78,23 +78,23 @@ public class GameScreen extends Screen {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 
-		System.out.println("Updating...");
+		//System.out.println("Updating...");
 		if (state == GameState.Running) {
-			System.out.println("Running");
+			//System.out.println("Running");
 			updateRunning(touchEvents, deltaTime);
 		}else if (state == GameState.LevelUp) {
-			System.out.println("LevelUp");
+			//System.out.println("LevelUp");
 			updateLevel(touchEvents);
 		}else if (state == GameState.GameOver) {
-			System.out.println("Gameover");
+			//System.out.println("Gameover");
 			updateGameOver(touchEvents);
-		}else if (state == GameState.Beaten){
-			System.out.println("Beaten");
-			updateBeaten(touchEvents);
+		}else if (state == GameState.Win){
+			////System.out.println("Win");
+			updateWin(touchEvents);
 		}else if (state == GameState.Paused) {
 			updatePaused(touchEvents);
 		}else if (state == GameState.HumanPhase) {
-			System.out.println("HumanPhase");
+			////System.out.println("HumanPhase");
 			updateHumanPhase(touchEvents);
 		}
 	}
@@ -114,13 +114,14 @@ public class GameScreen extends Screen {
 			}else if(humanPhase == 6){
 				Thread.sleep(1000);
 				
-				//Is the game beaten?
+				//Is the game won?
 				if(level.isEnd()){
-					state = GameState.Beaten;
+					state = GameState.Win;
 				}else{
 					state = GameState.Running;
 				}
 				humanPhase = 1;
+				System.out.println("Enemy Size: " + enemy.size());
 			
 			//Update periodically through the phases
 			}else{
@@ -129,7 +130,6 @@ public class GameScreen extends Screen {
 				Assets.humanphase.play(1);
 				state = GameState.HumanPhase;
 				humanPhase++;
-
 			}
 
 		} catch (InterruptedException e) {
@@ -220,10 +220,10 @@ public class GameScreen extends Screen {
 		//The enemy has been hit
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
-			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
+			////System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
-			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			////System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			////System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
 			
 			if (enemy.get(enemyindex).isDead()) 
@@ -264,6 +264,9 @@ public class GameScreen extends Screen {
 			
 			Assets.level_up.play(1);
 			
+			//Clear if there was an enemy running on the board at close
+			enemyindex = -1;
+			
 			int enemySum = enemy.size();
 			
 			//Create new level enemy
@@ -278,10 +281,10 @@ public class GameScreen extends Screen {
 				
 				//Add new level enemy
 				int moreEnemies = enemySum * 2;
-				System.out.println(moreEnemies);
+				////System.out.println(moreEnemies);
 				for(int i=0; i < moreEnemies; i++){
 					enemy.add(newenemy);
-					System.out.println("Enemy added " + enemy.size());
+					////System.out.println("Enemy added " + enemy.size());
 				}
 			}
 		}
@@ -325,7 +328,7 @@ public class GameScreen extends Screen {
 		}
 	}
 	
-	private void updateBeaten(List<TouchEvent> touchEvents){
+	private void updateWin(List<TouchEvent> touchEvents){
 		
 		//Stop the music
 		if(runningMusic.isPlaying())
@@ -379,7 +382,7 @@ public class GameScreen extends Screen {
 							Assets.click.play(1);
 						runningMusic.setVolume(1.0f);
 						long endtimePaused = new Date().getTime();
-						System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
+						//System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
 						level.addPausedTime(timePaused - endtimePaused);
 						timePaused = 0;
 						state = GameState.Running;
@@ -404,7 +407,7 @@ public class GameScreen extends Screen {
 		//enemy = new Enemy(g, enemySpeed, enemyHealth, newAnimation);
 		
 		enemyindex = (new Random()).nextInt(enemy.size());
-		System.out.println(enemyindex);
+		//System.out.println(enemyindex);
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
 
@@ -445,18 +448,18 @@ public class GameScreen extends Screen {
 		if (state == GameState.GameOver) {
 			drawGameOver();
 		}else if (state == GameState.LevelUp) {
-			System.out.println("LevelUp");
+			//System.out.println("LevelUp");
 			drawLevel();
-		}else if(state == GameState.Beaten){
-			System.out.println("Beaten");
-			drawBeaten();
+		}else if(state == GameState.Win){
+			//System.out.println("Beaten");
+			drawWin();
 		}else if (state == GameState.Running) {
-			System.out.println("Running");
+			//System.out.println("Running");
 			drawRunning();
 		}else if (state == GameState.Paused) {
 			drawPaused();
 		}else if(state == GameState.HumanPhase){
-			System.out.println("HumanPhase");
+			//System.out.println("HumanPhase");
 			drawHumanPhase();
 		}
 
@@ -494,14 +497,14 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 	
-	public void drawBeaten(){
+	public void drawWin(){
 		g.clear(0);
 		g.drawPixmap(Assets.youWin, g.getWidth()/2 - Assets.youWin.getWidth()/2, 60);
 
 		//Display scores
-		g.drawPixmap(Assets.scores, 0, Assets.youWin.getHeight() + 5 + 60);
-		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() - 5 + 60);
-		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 35 + 60);
+		g.drawPixmap(Assets.scores, 0, Assets.youWin.getHeight() + 60);
+		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 15 + 60);
+		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 50 + 60);
 		
 		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
@@ -532,7 +535,7 @@ public class GameScreen extends Screen {
 		}
        
 		//Draw enemy health
-		if (enemy != null) 
+		if (enemyindex != -1) 
 		{
 			for (int i = 0; i < enemy.get(enemyindex).getCurrentHealth(); i++) {
 				g.drawRect(xEnemyOffset + 275, 20, 25, 25, Color.GREEN);
