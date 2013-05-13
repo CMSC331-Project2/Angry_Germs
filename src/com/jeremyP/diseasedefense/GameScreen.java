@@ -333,35 +333,27 @@ public class GameScreen extends Screen {
 
 		while (xCoord == character.getCoords().getX() && yCoord == character.getCoords().getY()) {
 			//xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
-			yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
+			//yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
 			
-			/*
-			xCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) + (g.getWidth()/5)  ) + 1));
-			if (xCoord > 0){
-				xCoord = xCoord + g.getWidth();
+			int rando = (int) (Math.random() * ((10 - 0) + 1 ));
+			rando = rando - 5;
+			
+			if(rando > 0){
+				xCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) - min  ) + 1));
+				xCoord = xCoord - (g.getWidth()/10);
+				if (xCoord > 0){
+					xCoord = xCoord + g.getWidth();
+				}
+				yCoord = min + (int) (Math.random() * ((g.getHeight() - min) + 1));
 			}
-			yCoord = min + (int) (Math.random() * ((  (g.getHeight()/5) + (g.getHeight()/5) ) + 1));
-			if (yCoord > 0){
-				yCoord = yCoord + g.getHeight();
+			else{
+				yCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) - min  ) + 1));		
+				yCoord = yCoord - (g.getWidth()/10);
+				if (yCoord > 0){
+					yCoord = yCoord + g.getHeight();
+				}
+				xCoord = min + (int) (Math.random() * ((g.getWidth() - min) + 1));
 			}
-			*/
-			
-			xCoord = min + (int) (Math.random() * ((  (g.getWidth()/5) - min  ) + 1));
-			
-			xCoord = xCoord - (g.getWidth()/10);
-			
-			if (xCoord > 0){
-				xCoord = xCoord + g.getWidth();
-			}
-			
-			/*
-			yCoord = min + (int) (Math.random() * ((  (g.getHeight()/5) + (g.getHeight()/5) ) + 1));
-			if (yCoord > 0){
-				yCoord = yCoord + g.getHeight();
-			}
-			*/
-			
-			//yCoord = 0;
 			
 		}
 
