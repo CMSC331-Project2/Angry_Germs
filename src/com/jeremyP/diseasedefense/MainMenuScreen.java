@@ -91,7 +91,7 @@ public class MainMenuScreen extends Screen
 	{
 		Graphics g = game.getGraphics();
 		
-		g.drawPixmap(Assets.title, 32, 20);
+		g.drawPixmap(Assets.title, 30, 10);
 		//g.drawPixmap(Assets.mainmenu, 64, 220);
 		g.drawPixmap(Assets.mainmenu, 36, 220);
 	}  

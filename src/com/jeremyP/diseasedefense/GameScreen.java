@@ -276,7 +276,7 @@ public class GameScreen extends Screen {
 
 	public void drawGameOver() {
 		g.clear(0);
-		g.drawPixmap(Assets.gameover, -15, 100);
+		g.drawPixmap(Assets.gameover, 5, 50);
 	}
 	
 	/**
