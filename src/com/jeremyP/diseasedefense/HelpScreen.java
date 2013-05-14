@@ -14,7 +14,7 @@ public class HelpScreen extends Screen {
     public HelpScreen(Game game, int index) {
         super(game);
         this.index = index;
-        System.out.println("Help Screen " + index);
+        //System.out.println("Help Screen " + index);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class HelpScreen extends Screen {
             	int next_x = game.getGraphics().getWidth() - Assets.next.getWidth();
             	int next_y = game.getGraphics().getHeight() - Assets.next.getHeight();
             	
-            	int back_x = game.getGraphics().getWidth() - Assets.back.getWidth() - 50;
+            	int back_x = game.getGraphics().getWidth() - Assets.back.getWidth() - Assets.next.getWidth() - 50;
             	int back_y = game.getGraphics().getHeight() - Assets.back.getHeight();
             	
             	int home_x = 0;
@@ -41,6 +41,7 @@ public class HelpScreen extends Screen {
             	
             	//Did you click next?
             	if(event.x > next_x && event.x < next_x + Assets.next.getWidth() && event.y > next_y && event.y < Assets.next.getWidth() + next_y){
+            		Assets.click.play(1);
             		if(Assets.helpScreen.length == (index+1)){
                 		game.getGraphics().clear(0);
                 		game.setScreen(new MainMenuScreen(game));
@@ -53,7 +54,8 @@ public class HelpScreen extends Screen {
             	
             	//Did you click back?
             	if(event.x > back_x && event.x < back_x + Assets.back.getWidth() && event.y > back_y && event.y < Assets.back.getWidth() + back_y){
-            		if(Assets.helpScreen.length == 0){
+            		if(index == 0){
+                		Assets.click.play(1);
                 		game.getGraphics().clear(0);
                 		game.setScreen(new MainMenuScreen(game));
                 		return;
@@ -65,6 +67,7 @@ public class HelpScreen extends Screen {
             	
             	//Did you click home?
             	if(event.x > home_x && event.x < home_x + Assets.home.getWidth() && event.y > home_y && event.y < Assets.home.getWidth() + home_y){
+            		Assets.click.play(1);
             		game.getGraphics().clear(0);
             		game.setScreen(new MainMenuScreen(game));
             	}            	

@@ -89,7 +89,7 @@ public class Level {
 	 */
 	public boolean isLevelEnd(boolean clearScore){
 		
-		if(timeLeft() < 0){
+		if(timeLeft() < 1){
 			currentLevel++;
 			if(clearScore)
 				levelScore = 0;
