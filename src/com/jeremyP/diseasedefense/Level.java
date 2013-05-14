@@ -10,7 +10,7 @@ public class Level {
 	
 	//All the level information
 	private long startTime;
-	private static final int LEVEL_TIME = 15;
+	private long LEVEL_TIME = 15;
 	private static final int MAX_LEVEL = 5;
 	private int cumScore;
 	private int levelScore;
