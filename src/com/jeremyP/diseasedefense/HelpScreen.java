@@ -54,8 +54,8 @@ public class HelpScreen extends Screen {
             	
             	//Did you click back?
             	if(event.x > back_x && event.x < back_x + Assets.back.getWidth() && event.y > back_y && event.y < Assets.back.getWidth() + back_y){
+            		Assets.click.play(1);
             		if(index == 0){
-                		Assets.click.play(1);
                 		game.getGraphics().clear(0);
                 		game.setScreen(new MainMenuScreen(game));
                 		return;
