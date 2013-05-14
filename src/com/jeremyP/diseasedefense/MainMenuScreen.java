@@ -31,7 +31,7 @@ public class MainMenuScreen extends Screen
 			{
 				if (inBounds(event, 0, g.getHeight() - 64, 64, 64))
 				{
-					Assets.click.play(1);
+					//Assets.click.play(1);
 					/*Settings.soundEnabled = !Settings.soundEnabled;
 					if(Settings.soundEnabled){
 						Assets.click.play(1);
@@ -51,10 +51,12 @@ public class MainMenuScreen extends Screen
 					return;
 				}
 				
-				if (inBounds(event, 64, 220 + 42, 192, 42))
+				if (inBounds(event, 64, 300, 192, 42))
 				{
+					//System.out.println("Help screens Start");
 					Assets.click.play(1);
-					game.setScreen(new HelpScreen(game));
+					game.setScreen(new HelpScreen(game, 0));
+					//System.out.println("Help screens DOne");
 					/*Settings.soundEnabled = !Settings.soundEnabled;
 					if(Settings.soundEnabled)
 					{
@@ -65,7 +67,7 @@ public class MainMenuScreen extends Screen
 				
 				if (inBounds(event, 64, 220 + 84, 192, 42))
 				{
-					Assets.click.play(1);
+					//Assets.click.play(1);
 					/*Settings.soundEnabled = !Settings.soundEnabled;
 					if(Settings.soundEnabled)
 					{

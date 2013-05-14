@@ -116,12 +116,15 @@ public class GameScreen extends Screen {
 				
 				//Is the game won?
 				if(level.isEnd()){
+					Assets.youwinMusic.play();
+					Assets.youwinMusic.setLooping(false);
 					state = GameState.Win;
 				}else{
 					state = GameState.Running;
 				}
 				humanPhase = 1;
 				System.out.println("Enemy Size: " + enemy.size());
+				level.resetScore();
 			
 			//Update periodically through the phases
 			}else{
@@ -154,7 +157,8 @@ public class GameScreen extends Screen {
 		if(wait){
 			wait = false;
 			try {
-				Thread.sleep(1000);
+				touchEvents.clear();
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -169,7 +173,6 @@ public class GameScreen extends Screen {
 				//Did you click the Continue button?
 				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() && event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
 					Assets.click.play(1);
-					level.resetScore();
 					state = GameState.HumanPhase;
 					return;
 				}
@@ -264,19 +267,22 @@ public class GameScreen extends Screen {
 			
 			Assets.level_up.play(1);
 			
-			//Clear if there was an enemy running on the board at close
-			enemyindex = -1;
-			
-			int enemySum = enemy.size();
-			
-			//Create new level enemy
-			//TODO: Add speed variation to stronger/different enemies
-			int speed = 1;
-			int health = enemy.get(enemySum-1).getTotalHealth() + 1;
-			int points = enemy.get(enemySum-1).getSpeed() + 1;
-			
-			//This if statement will stay here until more enemy variations are created
-			if(level.whatLevel() < 6){
+			//This prepares the enemy array
+			//Of course, we don't need to do this if you have beaten the game
+			if(!level.isEnd()){
+				enemy.get(enemyindex).revive();
+				
+				//Clear if there was an enemy running on the board at close
+				enemyindex = -1;
+				
+				int enemySum = enemy.size();
+				
+				//Create new level enemy
+				//TODO: Add speed variation to stronger/different enemies
+				int speed = 1;
+				int health = enemy.get(enemySum-1).getTotalHealth() + 1;
+				int points = enemy.get(enemySum-1).getScore() + 1;
+				
 				Enemy newenemy = new Enemy(g, Assets.badGuys[level.whatLevel()-1] ,speed, health, points);
 				
 				//Add new level enemy
@@ -299,7 +305,8 @@ public class GameScreen extends Screen {
 		if(wait){
 			wait = false;
 			try {
-				Thread.sleep(1000);
+				touchEvents.clear();
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -337,7 +344,8 @@ public class GameScreen extends Screen {
 		if(wait){
 			wait = false;
 			try {
-				Thread.sleep(1000);
+				touchEvents.clear();
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -355,6 +363,7 @@ public class GameScreen extends Screen {
 				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() && event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
 					g.clear(0);
 					Assets.click.play(1);
+					Assets.youwinMusic.stop();
 					game.setScreen(new MainMenuScreen(game));
 					return;
 				}
@@ -382,7 +391,7 @@ public class GameScreen extends Screen {
 							Assets.click.play(1);
 						runningMusic.setVolume(1.0f);
 						long endtimePaused = new Date().getTime();
-						//System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
+						System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
 						level.addPausedTime(timePaused - endtimePaused);
 						timePaused = 0;
 						state = GameState.Running;
@@ -486,12 +495,20 @@ public class GameScreen extends Screen {
 
 	private void drawGameOver() {
 		g.clear(0);
+		
+		int heightStack = 0;
 		g.drawPixmap(Assets.gameover, g.getWidth()/2 - Assets.gameover.getWidth()/2, 60);
+		heightStack += Assets.gameover.getHeight() + 60;
 		
 		//Display scores
-		g.drawPixmap(Assets.scores, 0, Assets.gameover.getHeight() + 5 + 60);
-		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 15 + 60);
-		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 50 + 60);
+		//TOTAL SCORE
+		g.drawPixmap(Assets.tScore, 0, heightStack + 5);
+		drawText(g, "" + (level.getLevelScore()), Assets.tScore.getWidth() - 15, heightStack + 12);
+		heightStack += Assets.tScore.getHeight() + 5;
+		
+		//CUM SCORE
+		g.drawPixmap(Assets.cScore, 0, heightStack + 5);
+		drawText(g, "" + (level.getCumScore()), Assets.cScore.getWidth(), heightStack + 5);
 		
 		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
@@ -499,12 +516,16 @@ public class GameScreen extends Screen {
 	
 	private void drawWin(){
 		g.clear(0);
+		
+		int heightStack = 0;
 		g.drawPixmap(Assets.youWin, g.getWidth()/2 - Assets.youWin.getWidth()/2, 30);
-
+		heightStack += Assets.youWin.getHeight() + 30;
+		
 		//Display scores
-		g.drawPixmap(Assets.scores, 0, Assets.youWin.getHeight() + 60);
-		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 15 + 30);
-		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 50 + 30);
+		//TOTAL SCORE
+		g.drawPixmap(Assets.tScore, g.getWidth()/2 - Assets.tScore.getWidth()/2, heightStack + 5);
+		drawText(g, "" + (level.getCumScore()), g.getWidth()/2 - Assets.tScore.getWidth()/2 + Assets.tScore.getWidth() - 15, heightStack + 12);
+		heightStack += Assets.tScore.getHeight() + 5;
 		
 		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
@@ -512,16 +533,24 @@ public class GameScreen extends Screen {
 
 	private void drawLevel(){
 		g.clear(0);
+		
+		int heightStack = 0;
 		g.drawPixmap(Assets.levelUp, g.getWidth()/2 - Assets.levelUp.getWidth()/2, 30);
 		drawText(g, "" + (level.whatLevel()-1), Assets.levelUp.getWidth() - 15, (int) (Assets.levelUp.getHeight()*.25 + 30));
-
+		heightStack += Assets.levelUp.getHeight() + 30;
+		
 		//Display scores
-		g.drawPixmap(Assets.scores, 0, Assets.levelUp.getHeight() + 5 + 30);
-		drawText(g, "" + (level.getLevelScore()), Assets.scores.getWidth() - 35, Assets.levelUp.getHeight() + 50);
-		drawText(g, "" + (level.getCumScore()), Assets.scores.getWidth() - 20, Assets.levelUp.getHeight() + 35 + 50);
+		//TOTAL SCORE
+		g.drawPixmap(Assets.tScore, 0, heightStack + 5);
+		drawText(g, "" + (level.getLevelScore()), Assets.tScore.getWidth() - 15, heightStack + 12);
+		heightStack += Assets.tScore.getHeight() + 5;
+		
+		//CUM SCORE
+		g.drawPixmap(Assets.cScore, 0, heightStack + 5);
+		drawText(g, "" + (level.getCumScore()), Assets.cScore.getWidth(), heightStack + 5);
 		
 		//Display buttons
-		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.05)) - Assets.contin.getHeight());
+		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
 	}
 	
 	private void drawRunning() {

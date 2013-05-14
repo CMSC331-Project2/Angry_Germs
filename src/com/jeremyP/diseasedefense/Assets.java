@@ -7,12 +7,10 @@ import com.jeremyP.diseasedefense.framework.Sound;
 public class Assets 
 {
 	public static Pixmap levelBackground[];
-	public static Pixmap helpScreen1;
-	public static Pixmap helpScreen2;
-	public static Pixmap helpScreen3;
-	public static Pixmap helpScreen4;
-	public static Pixmap helpScreen5;
-	public static Pixmap helpScreen6;
+	public static Pixmap helpScreen[];
+	public static Pixmap next;
+	public static Pixmap back;
+	public static Pixmap home;
 	public static Pixmap numbers;
 	public static Pixmap pc1;
 	public static Pixmap pc2;
@@ -30,7 +28,9 @@ public class Assets
 	public static Pixmap contin;
 	public static Pixmap youWin;
 	public static Pixmap levelUp;
-	public static Pixmap scores;
+	//public static Pixmap scores;
+	public static Pixmap tScore;
+	public static Pixmap cScore;
 	public static Pixmap human[];
 	
 	/*
@@ -52,4 +52,5 @@ public class Assets
 	public static Sound game_over;
 	public static Music levelMusic[];
 	public static Music gameOverMusic;
+	public static Music youwinMusic;
 }

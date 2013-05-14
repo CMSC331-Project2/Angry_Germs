@@ -27,12 +27,21 @@ public class LoadingScreen extends Screen
 		Assets.levelBackground[3] = g.newPixmap("purple-blood-cells.png", PixmapFormat.RGB565);
 		Assets.levelBackground[4] = g.newPixmap("inside_human_heart.png", PixmapFormat.RGB565);
 		
-		Assets.helpScreen1 = g.newPixmap("helpScreen1.png", PixmapFormat.RGB565);
-		Assets.helpScreen2 = g.newPixmap("helpScreen2.png", PixmapFormat.RGB565);
-		Assets.helpScreen3 = g.newPixmap("helpScreen3.png", PixmapFormat.RGB565);
-		Assets.helpScreen4 = g.newPixmap("helpScreen4.png", PixmapFormat.RGB565);
-		Assets.helpScreen5 = g.newPixmap("helpScreen5.png", PixmapFormat.RGB565);
-		Assets.helpScreen6 = g.newPixmap("helpScreen6.png", PixmapFormat.RGB565);
+		//Create all the different help screen photos
+		Assets.helpScreen = new Pixmap[9];
+		Assets.helpScreen[0] = g.newPixmap("helpscreen_1.png", PixmapFormat.RGB565);
+		Assets.helpScreen[1] = g.newPixmap("helpscreen_2.png", PixmapFormat.RGB565);
+		Assets.helpScreen[2] = g.newPixmap("helpscreen_3.png", PixmapFormat.RGB565);
+		Assets.helpScreen[3] = g.newPixmap("helpscreen_4.png", PixmapFormat.RGB565);
+		Assets.helpScreen[4] = g.newPixmap("helpscreen_5.png", PixmapFormat.RGB565);
+		Assets.helpScreen[5] = g.newPixmap("helpscreen_6.png", PixmapFormat.RGB565);
+		Assets.helpScreen[6] = g.newPixmap("helpscreen_7.png", PixmapFormat.RGB565);
+		Assets.helpScreen[7] = g.newPixmap("helpscreen_8.png", PixmapFormat.RGB565);
+		Assets.helpScreen[8] = g.newPixmap("helpscreen_9.png", PixmapFormat.RGB565);
+		Assets.next = g.newPixmap("next_help.png", PixmapFormat.RGB565);
+		Assets.back = g.newPixmap("back_help.png", PixmapFormat.RGB565);
+		Assets.home = g.newPixmap("home.png", PixmapFormat.RGB565);
+		
 		Assets.pc1 = g.newPixmap("luketheleukocyte1.png", PixmapFormat.ARGB4444);
 		Assets.pc2 = g.newPixmap("luketheleukocyte2.png", PixmapFormat.ARGB4444);
 		Assets.pc3 = g.newPixmap("luketheleukocyte3.png", PixmapFormat.ARGB4444);
@@ -55,7 +64,9 @@ public class LoadingScreen extends Screen
 		Assets.pauseButton = g.newPixmap("pauseButton.png", PixmapFormat.ARGB4444);
 		Assets.numbers = g.newPixmap("numbers.png", PixmapFormat.ARGB4444);
 		Assets.levelUp = g.newPixmap("level_upgrade_default2.png", PixmapFormat.ARGB4444);
-		Assets.scores = g.newPixmap("scoreDisplay.png", PixmapFormat.ARGB4444);
+		//Assets.scores = g.newPixmap("scoreDisplay.png", PixmapFormat.ARGB4444);
+		Assets.tScore = g.newPixmap("total_score.png", PixmapFormat.ARGB4444);
+		Assets.cScore = g.newPixmap("cum_score.png", PixmapFormat.ARGB4444);
 		
 		//Human level transition animation phases
 		Assets.human = new Pixmap[6];
@@ -125,6 +136,7 @@ public class LoadingScreen extends Screen
 		
 		//Create music
 		Assets.gameOverMusic = game.getAudio().newMusic("madworld 8bit.mp3");
+		Assets.youwinMusic = game.getAudio().newMusic("victory.mp3");
 		Assets.levelMusic = new Music[5];
 		Assets.levelMusic[0] = game.getAudio().newMusic("01 A Night Of Dizzy Spells.mp3");
 		Assets.levelMusic[1] = game.getAudio().newMusic("02 Underclocked (underunderclocked mix).mp3");

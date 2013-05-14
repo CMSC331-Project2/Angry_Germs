@@ -10,7 +10,7 @@ public class Level {
 	
 	//All the level information
 	private long startTime;
-	private static final int LEVEL_TIME = 5;
+	private static final int LEVEL_TIME = 15;
 	private static final int MAX_LEVEL = 5;
 	private int cumScore;
 	private int levelScore;
@@ -78,7 +78,7 @@ public class Level {
 	 * @param pausedTime -  amount of time paused
 	 */
 	public void addPausedTime(long pausedTime){
-		startTime += pausedTime;
+		startTime -= pausedTime;
 	}
 	
 	/**
@@ -113,6 +113,9 @@ public class Level {
 		return (nowTime - startTime) / 1000;
 	}	
 	
+	/**
+	 * Reset/clear the level score and start the time over.
+	 */
 	public void resetScore(){
 		levelScore = 0;
 		startTime = new Date().getTime();
