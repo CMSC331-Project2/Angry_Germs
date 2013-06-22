@@ -602,27 +602,45 @@ public class GameScreen extends Screen {
 		g.drawPixmap(Assets.levelBackground[level.whatLevel()-1], 0, 0);
 	}
 
-	private void drawText(Graphics g, String line, int x, int y) {
+	/**
+	 * Print out a String
+	 * @param g - origin graphics
+	 * @param line - the desired text to be displayed
+	 * @param x - x coordinate of the desired string location
+	 * @param y - y coordinate of the desired string location
+	 */
+	public static void drawText(Graphics g, String line, int x, int y) {
 		int len = line.length();
 		for (int i = 0; i < len; i++) {
 			char character = line.charAt(i);
 
+			//Space
 			if (character == ' ') {
 				x += 20;
 				continue;
 			}
-
+			
 			int srcX = 0;
 			int srcWidth = 0;
-			if (character == '.') {
-				srcX = 200;
-				srcWidth = 10;
-			} else {
-				srcX = (character - '0') * 20;
-				srcWidth = 20;
+			
+			//Alphabetic character
+			if( (new String(character)).matches(["^a-zA-Z]") ){
+				
+				
+				//Digit
+			}else if((new String(character)).matches(["^0-9]")){
+				
+				if (character == '.') {
+					srcX = 200;
+					srcWidth = 10;
+				} else {
+					srcX = (character - '0') * 20;
+					srcWidth = 20;
+				}
+				g.drawPixmap(Assets.numbers, x, y, srcX, 0, srcWidth, 32);
 			}
 
-			g.drawPixmap(Assets.numbers, x, y, srcX, 0, srcWidth, 32);
+
 			x += srcWidth;
 		}
 	}

@@ -19,6 +19,8 @@ public class LoadingScreen extends Screen
 	{
 		Graphics g = game.getGraphics();
 		
+		Assets.splash = g.newPixmap("splash.png", PixmapFormat.RGB565);
+		
 		//Create level background images
 		Assets.levelBackground = new Pixmap[5];
 		Assets.levelBackground[0] = g.newPixmap("bloodstream.png", PixmapFormat.RGB565);
@@ -144,7 +146,8 @@ public class LoadingScreen extends Screen
 		Assets.levelMusic[3] = game.getAudio().newMusic("04 Jumpshot.mp3");
 		Assets.levelMusic[4] = game.getAudio().newMusic("05 We're the Resistors.mp3");
 
-		game.setScreen(new MainMenuScreen(game));
+		game.setScreen(new SplashScreen(game));
+		//game.setScreen(new MainMenuScreen(game));
 	}
 
 	@Override

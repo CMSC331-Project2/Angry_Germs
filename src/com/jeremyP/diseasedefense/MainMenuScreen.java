@@ -95,6 +95,7 @@ public class MainMenuScreen extends Screen
 	public void present(float deltaTime)
 	{
 		Graphics g = game.getGraphics();
+		g.clear(0);
 		
 		g.drawPixmap(Assets.title, 30, 10);
 		//g.drawPixmap(Assets.mainmenu, 64, 220);

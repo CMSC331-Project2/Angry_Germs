@@ -6,6 +6,7 @@ import com.jeremyP.diseasedefense.framework.Sound;
 
 public class Assets 
 {
+	public static Pixmap splash;
 	public static Pixmap levelBackground[];
 	public static Pixmap helpScreen[];
 	public static Pixmap next;
