@@ -64,6 +64,7 @@ public class LoadingScreen extends Screen
 		Assets.mainmenu = g.newPixmap("menubuttons.png", PixmapFormat.ARGB4444);
 		Assets.pauseMenu = g.newPixmap("pauseMenu.png", PixmapFormat.ARGB4444);
 		Assets.pauseButton = g.newPixmap("pauseButton.png", PixmapFormat.ARGB4444);
+		Assets.letters = g.newPixmap("letters.png", PixmapFormat.ARGB4444);
 		Assets.numbers = g.newPixmap("numbers.png", PixmapFormat.ARGB4444);
 		Assets.levelUp = g.newPixmap("level_upgrade_default2.png", PixmapFormat.ARGB4444);
 		//Assets.scores = g.newPixmap("scoreDisplay.png", PixmapFormat.ARGB4444);

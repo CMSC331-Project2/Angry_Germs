@@ -12,6 +12,7 @@ public class Assets
 	public static Pixmap next;
 	public static Pixmap back;
 	public static Pixmap home;
+	public static Pixmap letters;
 	public static Pixmap numbers;
 	public static Pixmap pc1;
 	public static Pixmap pc2;
