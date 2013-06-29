@@ -38,9 +38,10 @@ public class GameScreen extends Screen {
 	private int humanPhase;
 	private long timePaused;
 	private boolean wait; /* Used so pause to screen so the player has time to choose an option */
+	private char hsName[];
 
 	enum GameState {
-		LevelUp, Running, Paused, GameOver, Win, HumanPhase
+		LevelUp, Running, Paused, GameOver, Win, HumanPhase, HighScore
 	}
 
 	@SuppressLint("UseValueOf")
@@ -61,6 +62,7 @@ public class GameScreen extends Screen {
 		xCoord = character.getCoords().getX();
 		yCoord = character.getCoords().getY();
 		wait = true;
+		hsName = new char[]{'A', 'A', 'A'};
 		//enemiesKilled = 0;
 	}
 
@@ -78,25 +80,105 @@ public class GameScreen extends Screen {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 
-		//System.out.println("Updating...");
 		if (state == GameState.Running) {
-			//System.out.println("Running");
 			updateRunning(touchEvents, deltaTime);
 		}else if (state == GameState.LevelUp) {
-			//System.out.println("LevelUp");
 			updateLevel(touchEvents);
 		}else if (state == GameState.GameOver) {
-			//System.out.println("Gameover");
 			updateGameOver(touchEvents);
 		}else if (state == GameState.Win){
-			////System.out.println("Win");
 			updateWin(touchEvents);
 		}else if (state == GameState.Paused) {
 			updatePaused(touchEvents);
 		}else if (state == GameState.HumanPhase) {
-			////System.out.println("HumanPhase");
 			updateHumanPhase(touchEvents);
+		}else if(state == GameState.HighScore) {
+			updateHighScore(touchEvents);
 		}
+	}
+
+	private void updateHighScore(List<TouchEvent> touchEvents) {
+		
+		for (int i = 0; i < touchEvents.size(); i++) {
+			
+			TouchEvent event = touchEvents.get(i);
+			
+			if(event.type == TouchEvent.TOUCH_UP){
+				
+				int arrow_x[] = new int[3];
+				
+				arrow_x[0] = 73;
+				arrow_x[1] = 133;
+				arrow_x[2] = 193;
+						
+				// Did you touch the up arrows?
+				int up_y = 160;
+				int u = -1;
+				
+				if(event.x > arrow_x[0] && event.x < arrow_x[0] + Assets.up.getWidth() && event.y > up_y && event.y < up_y + Assets.up.getHeight()){
+					u = 0;
+				}else if(event.x > arrow_x[1] && event.x < arrow_x[1] + Assets.up.getWidth() && event.y > up_y && event.y < up_y + Assets.up.getHeight()){
+					u = 1;
+				}else if(event.x > arrow_x[2] && event.x < arrow_x[2] + Assets.up.getWidth() && event.y > up_y && event.y < up_y + Assets.up.getHeight()){
+					u = 2;
+				}
+				
+				System.out.println("Up " + u + " has been pressed!");
+				
+				if(u != -1){
+					Assets.click.play(1);
+					if(hsName[u] == 'A'){
+						hsName[u] = 'Z';
+					}else{
+						hsName[u]--;  
+					}
+				}
+				
+				// Did you touch the down arrows?
+				arrow_x[0] = 76;
+				arrow_x[1] = 136;
+				arrow_x[2] = 196;
+				
+				int down_y = 270;
+				int d = -1;
+				
+				if(event.x > arrow_x[0] && event.x < arrow_x[0] + Assets.down.getWidth() && event.y > down_y && event.y < down_y + Assets.down.getHeight()){
+					d = 0;
+				}else if(event.x > arrow_x[1] && event.x < arrow_x[1] + Assets.down.getWidth() && event.y > down_y && event.y < down_y + Assets.down.getHeight()){
+					d = 1;
+				}else if(event.x > arrow_x[2] && event.x < arrow_x[2] + Assets.down.getWidth() && event.y > down_y && event.y < down_y + Assets.down.getHeight()){
+					d = 2;
+				}
+				
+				System.out.println("Down " + d + " has been pressed!");
+
+				if(d != -1){
+					Assets.click.play(1);
+					if(hsName[d] == 'Z'){
+						hsName[d] = 'A';
+					}else{
+						hsName[d]++;
+					}
+				}
+				
+				// Did you touch the continue button?
+				int contin_x = g.getWidth()/2 - Assets.contin.getWidth()/2;
+				int contin_y = 330;
+				
+				char[] cname = {hsName[0], hsName[1], hsName[2]};
+				String name = new String(cname);
+				
+				String score = String.valueOf(level.getCumScore());
+				
+				if(event.x > contin_x && event.x < contin_x + Assets.contin.getWidth() && event.y > contin_y && event.y < contin_y + Assets.contin.getHeight()){
+					Assets.click.play(1);
+					HighscoreScreen.addHighScore(game, name, score);
+					game.setScreen(new MainMenuScreen(game));
+				}
+				
+			}
+		}	
+		
 	}
 
 	private void updateHumanPhase(List<TouchEvent> touchEvents) {
@@ -123,7 +205,7 @@ public class GameScreen extends Screen {
 					state = GameState.Running;
 				}
 				humanPhase = 1;
-				System.out.println("Enemy Size: " + enemy.size());
+				//System.out.println("Enemy Size: " + enemy.size());
 				level.resetScore();
 			
 			//Update periodically through the phases
@@ -223,10 +305,10 @@ public class GameScreen extends Screen {
 		//The enemy has been hit
 		if (enemyindex != -1 && character != null && character.getFlyingState() && enemy.get(enemyindex).hasCollided(character.getWeapon().getOrigin())) 
 		{
-			////System.out.println(enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println(enemy.get(enemyindex).getCurrentHealth());
 			enemy.get(enemyindex).getHit();
-			////System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
-			////System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
+			//System.out.println("Hit: " + enemy.get(enemyindex).getCurrentHealth());
 			character.stopProjectile();
 			
 			if (enemy.get(enemyindex).isDead()) 
@@ -287,10 +369,10 @@ public class GameScreen extends Screen {
 				
 				//Add new level enemy
 				int moreEnemies = enemySum * 2;
-				////System.out.println(moreEnemies);
+				//System.out.println(moreEnemies);
 				for(int i=0; i < moreEnemies; i++){
 					enemy.add(newenemy);
-					////System.out.println("Enemy added " + enemy.size());
+					//System.out.println("Enemy added " + enemy.size());
 				}
 			}
 		}
@@ -328,8 +410,12 @@ public class GameScreen extends Screen {
 					g.clear(0);
 					Assets.click.play(1);
 					Assets.gameOverMusic.stop();
-					game.setScreen(new MainMenuScreen(game));
-					return;
+					if(HighscoreScreen.isNewHighScore(game, level.getCumScore())){
+						state = GameState.HighScore;
+					}else {
+						game.setScreen(new MainMenuScreen(game));
+						return;
+					}
 				}
 			}
 		}
@@ -364,9 +450,12 @@ public class GameScreen extends Screen {
 					g.clear(0);
 					Assets.click.play(1);
 					Assets.youwinMusic.stop();
-					game.setScreen(new MainMenuScreen(game));
-					return;
-				}
+					if(HighscoreScreen.isNewHighScore(game, level.getCumScore())){
+						state = GameState.HighScore;
+					}else {
+						game.setScreen(new MainMenuScreen(game));
+						return;
+					}				}
 			}
 		}
 	}
@@ -391,7 +480,7 @@ public class GameScreen extends Screen {
 							Assets.click.play(1);
 						runningMusic.setVolume(1.0f);
 						long endtimePaused = new Date().getTime();
-						System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
+						//System.out.println("Paused time: " + new Date(timePaused - endtimePaused));
 						level.addPausedTime(timePaused - endtimePaused);
 						timePaused = 0;
 						state = GameState.Running;
@@ -452,26 +541,58 @@ public class GameScreen extends Screen {
 
 	@Override
 	public void present(float deltaTime) {
-		System.out.print("Drawing...");
+		//System.out.print("Drawing...");
 		
 		if (state == GameState.GameOver) {
 			drawGameOver();
 		}else if (state == GameState.LevelUp) {
-			//System.out.println("LevelUp");
 			drawLevel();
 		}else if(state == GameState.Win){
-			//System.out.println("Beaten");
 			drawWin();
 		}else if (state == GameState.Running) {
-			//System.out.println("Running");
 			drawRunning();
 		}else if (state == GameState.Paused) {
 			drawPaused();
 		}else if(state == GameState.HumanPhase){
-			//System.out.println("HumanPhase");
 			drawHumanPhase();
+		}else if(state == GameState.HighScore){
+			drawHighscore();
 		}
 
+	}
+
+	private void drawHighscore() {
+		g.clear(0);
+		
+		drawText(g, "NEW", g.getWidth()/2, 0, false, true);
+		drawText(g, "HIGHSCORE", 0, 50, true, true);
+		
+		drawText(g, "ENTER NAME", 0, 110, true, true);
+		
+		int left = 70;
+		int center = 130;
+		int right = 190;
+		
+		int top = 160;
+		int middle = 210;
+		int bottom = 270;
+		
+		//Up arrows
+		g.drawPixmap(Assets.up, left + 3, top);
+		g.drawPixmap(Assets.up, center + 3, top);
+		g.drawPixmap(Assets.up, right + 3, top);		
+		
+		//Name
+		drawText(g, hsName[0] + "", left, middle, false, false);
+		drawText(g, hsName[1] + "", center, middle, false, false);
+		drawText(g, hsName[2] + "", right, middle, false, false);	
+		
+		//Down arrows
+		g.drawPixmap(Assets.down, left + 6, bottom);
+		g.drawPixmap(Assets.down, center + 6, bottom);
+		g.drawPixmap(Assets.down, right + 6, bottom);	
+		
+		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, 330);
 	}
 
 	private void drawHumanPhase() {
@@ -503,12 +624,12 @@ public class GameScreen extends Screen {
 		//Display scores
 		//TOTAL SCORE
 		g.drawPixmap(Assets.tScore, 0, heightStack + 5);
-		drawText(g, "" + (level.getLevelScore()), Assets.tScore.getWidth() - 15, heightStack + 12);
+		drawText(g, "" + (level.getLevelScore()), Assets.tScore.getWidth() - 15, heightStack + 17, true, false);
 		heightStack += Assets.tScore.getHeight() + 5;
 		
 		//CUM SCORE
-		g.drawPixmap(Assets.cScore, 0, heightStack + 5);
-		drawText(g, "" + (level.getCumScore()), Assets.cScore.getWidth(), heightStack + 5);
+		g.drawPixmap(Assets.cScore, -5, heightStack + 5);
+		drawText(g, "" + (level.getCumScore()), Assets.cScore.getWidth() - 5, heightStack + 10, true, false);
 		
 		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
@@ -523,8 +644,8 @@ public class GameScreen extends Screen {
 		
 		//Display scores
 		//TOTAL SCORE
-		g.drawPixmap(Assets.tScore, g.getWidth()/2 - Assets.tScore.getWidth()/2, heightStack + 5);
-		drawText(g, "" + (level.getCumScore()), g.getWidth()/2 - Assets.tScore.getWidth()/2 + Assets.tScore.getWidth() - 15, heightStack + 12);
+		g.drawPixmap(Assets.tScore, 0, heightStack + 5);
+		drawText(g, "" + (level.getCumScore()), Assets.tScore.getWidth() - 15, heightStack + 17, true, false);
 		heightStack += Assets.tScore.getHeight() + 5;
 		
 		//Display buttons
@@ -536,18 +657,18 @@ public class GameScreen extends Screen {
 		
 		int heightStack = 0;
 		g.drawPixmap(Assets.levelUp, g.getWidth()/2 - Assets.levelUp.getWidth()/2, 30);
-		drawText(g, "" + (level.whatLevel()-1), Assets.levelUp.getWidth() - 15, (int) (Assets.levelUp.getHeight()*.25 + 30));
-		heightStack += Assets.levelUp.getHeight() + 30;
+		drawText(g, "" + (level.whatLevel()-1), Assets.levelUp.getWidth() - 15, (int) (Assets.levelUp.getHeight()*.25 + 20), false, false);
+		heightStack += Assets.levelUp.getHeight() + 40;
 		
 		//Display scores
 		//TOTAL SCORE
 		g.drawPixmap(Assets.tScore, 0, heightStack + 5);
-		drawText(g, "" + (level.getLevelScore()), Assets.tScore.getWidth() - 15, heightStack + 12);
+		drawText(g, "" + (level.getLevelScore()), Assets.tScore.getWidth() - 15, heightStack + 17, true, false);
 		heightStack += Assets.tScore.getHeight() + 5;
 		
 		//CUM SCORE
-		g.drawPixmap(Assets.cScore, 0, heightStack + 5);
-		drawText(g, "" + (level.getCumScore()), Assets.cScore.getWidth(), heightStack + 5);
+		g.drawPixmap(Assets.cScore, -5, heightStack + 5);
+		drawText(g, "" + (level.getCumScore()), Assets.cScore.getWidth() - 5, heightStack + 10, true, false);
 		
 		//Display buttons
 		g.drawPixmap(Assets.contin, g.getWidth()/2 - Assets.contin.getWidth()/2, (int) (g.getHeight() - (g.getHeight()*.1)) - Assets.contin.getHeight());
@@ -557,6 +678,16 @@ public class GameScreen extends Screen {
 		drawBackground();
 		drawPauseButton();
 
+		//Draw enemy
+		if(enemyindex != -1){
+			enemy.get(enemyindex).present();
+		}
+
+		//Draw you
+		if (character != null) {
+			character.present();
+		}
+		
 		//Draw character health
 		for (int i = 0; i < character.getHealth(); i++) {
 			g.drawRect(xOffset + 10, g.getHeight() - 20, 25, 25, Color.BLUE);
@@ -572,22 +703,20 @@ public class GameScreen extends Screen {
 			}
 		}
 
-		if(enemyindex != -1){
-			enemy.get(enemyindex).present();
-		}
-
-		if (character != null) {
-			character.present();
-		}
 		xOffset = 0;
 		xEnemyOffset = 0;
 
-		drawText(g, Integer.toString((int)level.timeLeft()), g.getWidth() - 60, g.getHeight() - 35);
+		//Timer
+		int time = (int)level.timeLeft();
+		if(time > 9){
+			drawText(g, Integer.toString(time), g.getWidth() - 60, g.getHeight() - 25, true, false);
+		}else{
+			drawText(g, Integer.toString(time), g.getWidth() - 30, g.getHeight() - 25, true, false);
+		}
 	}
 	
 	private void drawPaused() {
 		Graphics g = game.getGraphics();
-
 		g.drawPixmap(Assets.pauseMenu, 80, 100);
 	}
 
@@ -609,38 +738,91 @@ public class GameScreen extends Screen {
 	 * @param x - x coordinate of the desired string location
 	 * @param y - y coordinate of the desired string location
 	 */
-	public static void drawText(Graphics g, String line, int x, int y) {
+	public static void drawText(Graphics g, String line, int x, int y, boolean small, boolean center) {
 		int len = line.length();
+		Pixmap asset;
+		int spacing;
+		final int CHAR_H;
+		final int CHAR_W;
+		
+		if(small){
+			spacing = 4;
+			CHAR_H = 25;
+			CHAR_W = 25;
+			asset = Assets.letters_small;
+		}else{
+			spacing = 8;
+			CHAR_H = 50;
+			CHAR_W = 50;			
+			asset = Assets.letters_large;
+		}
+		
 		for (int i = 0; i < len; i++) {
-			char character = line.charAt(i);
-
+			String character = line.charAt(i) + "";
+			
 			//Space
-			if (character == ' ') {
+			if (character.equals(" ")) {
 				x += 20;
 				continue;
 			}
 			
 			int srcX = 0;
-			int srcWidth = 0;
+			int srcY = 0;
+			int srcWidth = CHAR_W;
+			int srcHeight = CHAR_H;
+			int charAsciiIndex = character.toUpperCase().charAt(0);
+			
+			//System.out.println(charAsciiIndex + " : " + (char)charAsciiIndex);
 			
 			//Alphabetic character
-			if( (new String(character)).matches(["^a-zA-Z]") ){
+			if( (charAsciiIndex >= 65 && charAsciiIndex <=  90) ||
+					charAsciiIndex >= 97 && charAsciiIndex <= 122){
 				
+				int charIndex = charAsciiIndex - 65;
+				int column = charIndex % 11;
+				int row = charIndex / 11;
 				
-				//Digit
-			}else if((new String(character)).matches(["^0-9]")){
+				srcWidth = CHAR_W;
 				
-				if (character == '.') {
-					srcX = 200;
-					srcWidth = 10;
-				} else {
-					srcX = (character - '0') * 20;
-					srcWidth = 20;
+				srcX = column * CHAR_W;
+				srcY = row * CHAR_H + ((spacing * row) + 1); //Second part is for spacing
+								
+				//Digits
+			}else if(charAsciiIndex >= 48 && charAsciiIndex <= 57){
+				
+				int row, column;
+				int digitIndex = charAsciiIndex - 49; //It's -49 and not -48 because we don't count the zero from the ASCII table
+				
+				//Apparently, 0 comes first in the ASCII table and last in the letters.png
+				//TODO: Photoshop letters.png to support the ASCII table order
+				if(charAsciiIndex == 48){
+					row = 3;
+					column = 2;					
+				}else{
+					column = (digitIndex + 4) % 11;
+					row = (digitIndex + 4) / 11;
+					
+					row += 2;
 				}
-				g.drawPixmap(Assets.numbers, x, y, srcX, 0, srcWidth, 32);
+				
+				srcWidth = CHAR_W;
+				
+				srcX = column * CHAR_W;
+				srcY = row * CHAR_H + ((spacing * row) + 1); //Second part is for spacing
+								
+				//.
+			}else if(charAsciiIndex == 46){
+				
+				srcX = 15 * CHAR_W + (spacing * 15);
+				srcY = 3 * CHAR_H + ((spacing * 3) + 1); //Second part is for spacing
+			}
+			
+			if(center){
+				x = g.getWidth()/2 - (line.length() * CHAR_W)/2;
+				center = false;
 			}
 
-
+			g.drawPixmap(asset, x, y, srcX, srcY, srcWidth, srcHeight);
 			x += srcWidth;
 		}
 	}

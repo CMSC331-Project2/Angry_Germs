@@ -1,5 +1,6 @@
 package com.jeremyP.diseasedefense;
 
+import com.jeremyP.diseasedefense.framework.FileIO;
 import com.jeremyP.diseasedefense.framework.Music;
 import com.jeremyP.diseasedefense.framework.Pixmap;
 import com.jeremyP.diseasedefense.framework.Sound;
@@ -12,7 +13,10 @@ public class Assets
 	public static Pixmap next;
 	public static Pixmap back;
 	public static Pixmap home;
-	public static Pixmap letters;
+	public static Pixmap up;
+	public static Pixmap down;
+	public static Pixmap letters_large;
+	public static Pixmap letters_small;
 	public static Pixmap numbers;
 	public static Pixmap pc1;
 	public static Pixmap pc2;

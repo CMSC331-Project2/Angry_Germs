@@ -43,6 +43,8 @@ public class LoadingScreen extends Screen
 		Assets.next = g.newPixmap("next_help.png", PixmapFormat.RGB565);
 		Assets.back = g.newPixmap("back_help.png", PixmapFormat.RGB565);
 		Assets.home = g.newPixmap("home.png", PixmapFormat.RGB565);
+		Assets.up = g.newPixmap("up.png", PixmapFormat.RGB565);
+		Assets.down = g.newPixmap("down.png", PixmapFormat.RGB565);
 		
 		Assets.pc1 = g.newPixmap("luketheleukocyte1.png", PixmapFormat.ARGB4444);
 		Assets.pc2 = g.newPixmap("luketheleukocyte2.png", PixmapFormat.ARGB4444);
@@ -64,7 +66,8 @@ public class LoadingScreen extends Screen
 		Assets.mainmenu = g.newPixmap("menubuttons.png", PixmapFormat.ARGB4444);
 		Assets.pauseMenu = g.newPixmap("pauseMenu.png", PixmapFormat.ARGB4444);
 		Assets.pauseButton = g.newPixmap("pauseButton.png", PixmapFormat.ARGB4444);
-		Assets.letters = g.newPixmap("letters.png", PixmapFormat.ARGB4444);
+		Assets.letters_large = g.newPixmap("letters.png", PixmapFormat.ARGB4444);
+		Assets.letters_small = g.newPixmap("letters_small.png", PixmapFormat.ARGB4444);
 		Assets.numbers = g.newPixmap("numbers.png", PixmapFormat.ARGB4444);
 		Assets.levelUp = g.newPixmap("level_upgrade_default2.png", PixmapFormat.ARGB4444);
 		//Assets.scores = g.newPixmap("scoreDisplay.png", PixmapFormat.ARGB4444);
@@ -146,6 +149,8 @@ public class LoadingScreen extends Screen
 		Assets.levelMusic[2] = game.getAudio().newMusic("03 All of Us.mp3");
 		Assets.levelMusic[3] = game.getAudio().newMusic("04 Jumpshot.mp3");
 		Assets.levelMusic[4] = game.getAudio().newMusic("05 We're the Resistors.mp3");
+		
+		HighscoreScreen.load(game.getFileIO());
 
 		game.setScreen(new SplashScreen(game));
 		//game.setScreen(new MainMenuScreen(game));

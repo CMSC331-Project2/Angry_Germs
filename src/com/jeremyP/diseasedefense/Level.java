@@ -107,8 +107,8 @@ public class Level {
 	public long getTimePassed(){
 		
 		long nowTime = new Date().getTime();
-		System.out.println("nowTime: " + nowTime);
-		System.out.println("currentTime: " + startTime);
+		//System.out.println("nowTime: " + nowTime);
+		//System.out.println("currentTime: " + startTime);
 
 		return (nowTime - startTime) / 1000;
 	}	
